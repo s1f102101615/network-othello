@@ -32,7 +32,7 @@ prisma 用の.env には自分で起動した PostgreSQL の設定を書く
 $ cp .env.example .env
 $ cp server/.env.example server/.env
 $ cp docker/dev/.env.example docker/dev/.env
-$ echo "API_DATABASE_URL=postgresql://root:root@localhost:5432/|Project Name|" >> server/prisma/.env
+$ echo "API_DATABASE_URL=postgresql://root:root@localhost:5432/network-othello" >> server/prisma/.env
 ```
 
 ### ミドルウェアのセットアップ
@@ -65,7 +65,7 @@ $ npm run notios
 ```
 
 Web ブラウザで http://localhost:3000 を開く
-
+cd
 開発時のターミナル表示は [notios](https://github.com/frouriojs/notios) で制御している
 
 [Node.js モノレポ開発のターミナルログ混雑解消のための新作 CLI ツール notios](https://zenn.dev/luma/articles/nodejs-new-cli-tool-notios)
