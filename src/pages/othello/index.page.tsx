@@ -15,6 +15,14 @@ const Home = () => {
 
     if (res !== null) setBoard(res.board);
   };
+
+  const [turn, setTurn] = useState<number>();
+  const fetchTurn = async () => {
+    const res = await apiClient.turn.$get().catch(returnNull);
+
+    if (res !== null) setTurn(res.turn);
+  };
+
   const clickCell = async (x: number, y: number) => {
     await apiClient.board.$post({ body: { x, y } });
     await fetchBoard();
@@ -31,16 +39,16 @@ const Home = () => {
     <>
       <BasicHeader user={user} />
       <div className={styles.container}>
-        {/* <a className={styles.turn}>現在 {turnColor === 1 ? '黒' : '白'} のターン</a>
-        <div className={styles.black}>
+        <a className={styles.turn}>現在 {turn === 1 ? '黒' : '白'} のターン</a>
+        {/* <div className={styles.black}>
           <a className={styles.blackname}>黒{blackCount}個</a>
         </div>
         <div className={styles.white}>
           <a className={styles.whitename}>白{whiteCount}個</a>
-        </div>
+        </div> */}
         <a href="http://localhost:3000/" className={styles.newgame}>
           リスタート
-        </a> */}
+        </a>
         <div className={styles.board}>
           {board.map((row, y) =>
             row.map((color, x) => (
@@ -50,8 +58,8 @@ const Home = () => {
                     className={styles.stone}
                     style={{
                       background: color === 1 ? '#000' : color === 3 ? '#ccff00' : '#fff',
-                      // width: color === 3 ? '20%' : '90%',
-                      // height: color === 3 ? '20%' : '90%',
+                      width: color === 3 ? '20%' : '90%',
+                      height: color === 3 ? '20%' : '90%',
                     }}
                   />
                 )}
