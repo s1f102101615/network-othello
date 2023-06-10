@@ -46,9 +46,9 @@ const Home = () => {
         <div className={styles.white}>
           <a className={styles.whitename}>白{whiteCount}個</a>
         </div> */}
-        {/* <a href="http://localhost:3000/" className={styles.newgame}>
+        <a href="http://localhost:3000/" className={styles.newgame}>
           リスタート
-        </a> */}
+        </a>
         <div className={styles.board}>
           {board.map((row, y) =>
             row.map((color, x) => (
