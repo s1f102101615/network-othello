@@ -20,10 +20,7 @@ export const futureBoardRepository = {
 
     for (let tate = 0; tate < 8; tate++) {
       for (let yoko = 0; yoko < 8; yoko++) {
-        if (newfutureBoard[tate][yoko] === 3) {
-          newfutureBoard[tate][yoko] = 0;
-        }
-        if (newfutureBoard[tate][yoko] === 0) {
+        if (newfutureBoard[tate][yoko] !== 1 && newfutureBoard[tate][yoko] !== 2) {
           for (const d of directions) {
             if (
               newfutureBoard[tate + d[0]] !== undefined &&
@@ -48,6 +45,8 @@ export const futureBoardRepository = {
                     3 - userColorRepository.getUserColor(color)
                   ) {
                     newfutureBoard[tate][yoko] = 3;
+                  } else {
+                    newfutureBoard[tate][yoko] = 0;
                   }
                 }
               }
