@@ -1,3 +1,4 @@
+/* eslint-disable complexity */
 /* eslint-disable max-depth */
 import type { UserId } from '$/commonTypesWithClient/branded';
 import { boardRepository } from './boardRepository';
@@ -19,16 +20,15 @@ export const changeBoardRepository = {
 
     for (const d of directions) {
       if (
-        newBoard[y + d[0]] !== undefined &&
+        newBoard[y + d[0]] !== undefined ||
         newBoard[y + d[0]][x + d[1]] !== userColorRepository.getUserColor(color)
       ) {
         let turn = 2;
         for (let p = 2; p < 8; p++) {
           if (
             newBoard[y + d[0] * p] === undefined ||
-            newBoard[y + d[0] * p][x + d[1] * p] === undefined ||
-            newBoard[y + d[0] * p][x + d[1] * p] === 0 ||
-            newBoard[y + d[0] * p][x + d[1] * p] === 3
+            (newBoard[y + d[0] * p][x + d[1] * p] !== 1 &&
+              newBoard[y + d[0] * p][x + d[1] * p] !== 2)
           ) {
             break;
           }

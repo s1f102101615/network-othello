@@ -1,3 +1,5 @@
+/* eslint-disable complexity */
+/* eslint-disable max-depth */
 import type { UserId } from '$/commonTypesWithClient/branded';
 import { boardRepository } from './boardRepository';
 import { userColorRepository } from './userColorRepository';
@@ -13,14 +15,17 @@ const directions = [
   [-1, -1], // 左上
 ];
 export const futureBoardRepository = {
+  //
   // eslint-disable-next-line complexity
   // eslint-disable-next-line max-depth
   getfutureChangeBoard: (color: UserId): number[][] => {
-    const newfutureBoard = boardRepository.getBoard();
+    const newfutureBoard = boardRepository
+      .getBoard()
+      .map((row) => row.map((element) => (element === 3 ? 0 : element)));
 
     for (let tate = 0; tate < 8; tate++) {
       for (let yoko = 0; yoko < 8; yoko++) {
-        if (newfutureBoard[tate][yoko] !== 1 && newfutureBoard[tate][yoko] !== 2) {
+        if (newfutureBoard[tate][yoko] === 0) {
           for (const d of directions) {
             if (
               newfutureBoard[tate + d[0]] !== undefined &&
@@ -45,8 +50,6 @@ export const futureBoardRepository = {
                     3 - userColorRepository.getUserColor(color)
                   ) {
                     newfutureBoard[tate][yoko] = 3;
-                  } else {
-                    newfutureBoard[tate][yoko] = 0;
                   }
                 }
               }
