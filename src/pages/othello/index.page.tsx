@@ -39,16 +39,16 @@ const Home = () => {
     <>
       <BasicHeader user={user} />
       <div className={styles.container}>
-        <a className={styles.turn}>現在 {turn === 1 ? '黒' : '白'} のターン</a>
+        {/* <a className={styles.turn}>現在 {turn === 1 ? '黒' : '白'} のターン</a> */}
         {/* <div className={styles.black}>
           <a className={styles.blackname}>黒{blackCount}個</a>
         </div>
         <div className={styles.white}>
           <a className={styles.whitename}>白{whiteCount}個</a>
         </div> */}
-        <a href="http://localhost:3000/" className={styles.newgame}>
+        {/* <a href="http://localhost:3000/" className={styles.newgame}>
           リスタート
-        </a>
+        </a> */}
         <div className={styles.board}>
           {board.map((row, y) =>
             row.map((color, x) => (
