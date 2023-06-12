@@ -1,4 +1,4 @@
-import type { TaskId, UserId } from './branded';
+import type { TaskId, UserId , RoomId } from './branded';
 
 export type UserModel = {
   id: UserId;
@@ -12,4 +12,11 @@ export type TaskModel = {
   label: string;
   done: boolean;
   created: number;
+};
+
+export type RoomModel = {
+  id: RoomId;
+  board: number[][];
+  status: 'waiting' | 'playing' | 'ended';
+  created:number;
 };

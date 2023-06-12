@@ -1,3 +1,4 @@
+/* eslint-disable complexity */
 import { useAtom } from 'jotai';
 import { useEffect, useState } from 'react';
 import { Loading } from 'src/components/Loading/Loading';
@@ -11,20 +12,16 @@ const Home = () => {
   const [user] = useAtom(userAtom);
   const [board, setBoard] = useState<number[][]>();
   const fetchBoard = async () => {
-    const res = await apiClient.board.$get().catch(returnNull);
-
-    if (res !== null) setBoard(res.board);
-  };
-
-  const [turn, setTurn] = useState<number>();
-  const fetchTurn = async () => {
-    const res = await apiClient.turn.$get().catch(returnNull);
-
-    if (res !== null) setTurn(res.turn);
+    const board = await apiClient.rooms.$get().catch(returnNull);
+    if (board === null) {
+      const newRoom = await apiClient.rooms.$post();
+      setBoard(newRoom.board);
+    }
+    if (board !== null) setBoard(board.board);
   };
 
   const clickCell = async (x: number, y: number) => {
-    await apiClient.board.$post({ body: { x, y } });
+    await apiClient.rooms.board.$post({ body: { x, y } });
     await fetchBoard();
   };
 

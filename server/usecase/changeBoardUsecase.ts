@@ -1,8 +1,8 @@
 /* eslint-disable complexity */
 /* eslint-disable max-depth */
 import type { UserId } from '$/commonTypesWithClient/branded';
-import { boardRepository } from './boardRepository';
-import { userColorRepository } from './userColorRepository';
+import { boardUsecase } from './boardUsecase';
+import { userColorUsecase } from './userColorUsecase';
 
 const directions = [
   [-1, 0], // 上
@@ -14,19 +14,19 @@ const directions = [
   [0, -1], // 左
   [-1, -1], // 左上
 ];
-export const changeBoardRepository = {
+export const changeBoardUsecase = {
   getChangeBoard: (x: number, y: number, color: UserId): number[][] => {
-    const newBoard = boardRepository.getBoard();
+    const newBoard = boardUsecase.getBoard();
 
     for (const d of directions) {
       if (
         newBoard[y + d[0]] !== undefined &&
         newBoard[y + d[0]][x + d[1]] !== undefined &&
         newBoard[y + d[0]][x + d[1]] !== 0 &&
-        newBoard[y + d[0]][x + d[1]] !== userColorRepository.getUserColor(color)
+        newBoard[y + d[0]][x + d[1]] !== userColorUsecase.getUserColor(color)
       ) {
         if (
-          newBoard[y + d[0]][x + d[1]] !== userColorRepository.getUserColor(color) &&
+          newBoard[y + d[0]][x + d[1]] !== userColorUsecase.getUserColor(color) &&
           newBoard[y + d[0]][x + d[1]] !== 3
         ) {
           let rturn = 2;
@@ -39,12 +39,12 @@ export const changeBoardRepository = {
             ) {
               break;
             }
-            if (newBoard[y + d[0] * p][x + d[1] * p] === userColorRepository.getUserColor(color)) {
-              newBoard[y][x] = userColorRepository.getUserColor(color);
+            if (newBoard[y + d[0] * p][x + d[1] * p] === userColorUsecase.getUserColor(color)) {
+              newBoard[y][x] = userColorUsecase.getUserColor(color);
 
               for (let now = 1; now < rturn; now++) {
                 newBoard[y + d[0] * (p - now)][x + d[1] * (p - now)] =
-                  userColorRepository.getUserColor(color);
+                  userColorUsecase.getUserColor(color);
               }
             }
             rturn++;

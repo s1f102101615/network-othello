@@ -1,6 +1,8 @@
+/* eslint-disable complexity */
+/* eslint-disable max-depth */
 import type { UserId } from '$/commonTypesWithClient/branded';
-import { boardRepository } from './boardRepository';
-import { userColorRepository } from './userColorRepository';
+import { boardUsecase } from './boardUsecase';
+import { userColorUsecase } from './userColorUsecase';
 
 const directions = [
   [-1, 0], // 上
@@ -12,11 +14,9 @@ const directions = [
   [0, -1], // 左
   [-1, -1], // 左上
 ];
-export const futureBoardRepository = {
-  // eslint-disable-next-line complexity
-  // eslint-disable-next-line max-depth
+export const futureBoardUsecase = {
   getfutureChangeBoard: (color: UserId): number[][] => {
-    const newfutureBoard = boardRepository.getBoard();
+    const newfutureBoard = boardUsecase.getBoard();
 
     for (let tate = 0; tate < 8; tate++) {
       for (let yoko = 0; yoko < 8; yoko++) {
@@ -28,11 +28,11 @@ export const futureBoardRepository = {
             if (
               newfutureBoard[tate + d[0]] !== undefined &&
               newfutureBoard[tate + d[0]][yoko + d[1]] !== undefined &&
-              newfutureBoard[tate + d[0]][yoko + d[1]] === userColorRepository.getUserColor(color)
+              newfutureBoard[tate + d[0]][yoko + d[1]] === userColorUsecase.getUserColor(color)
             ) {
               if (
                 newfutureBoard[tate + d[0]][yoko + d[1]] !==
-                3 - userColorRepository.getUserColor(color)
+                3 - userColorUsecase.getUserColor(color)
               ) {
                 for (let p = 2; p < 8; p++) {
                   if (
@@ -45,7 +45,7 @@ export const futureBoardRepository = {
                   }
                   if (
                     newfutureBoard[tate + d[0] * p][yoko + d[1] * p] ===
-                    3 - userColorRepository.getUserColor(color)
+                    3 - userColorUsecase.getUserColor(color)
                   ) {
                     newfutureBoard[tate][yoko] = 3;
                   }

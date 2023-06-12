@@ -1,7 +1,7 @@
 import type { UserId } from '$/commonTypesWithClient/branded';
-import { changeBoardRepository } from './changeBoardRepository';
-import { futureBoardRepository } from './futureBoardRepository';
-import { userColorRepository } from './userColorRepository';
+import { changeBoardUsecase } from './changeBoardUsecase';
+import { futureBoardUsecase } from './futureBoardUsecase';
+import { userColorUsecase } from './userColorUsecase';
 
 export type BoardArr = number[][];
 
@@ -16,16 +16,16 @@ const board: BoardArr = [
   ...Array.from({ length: 2 }, () => Array(8).fill(0)),
 ]; //実装コード
 let turn = 1;
-export const boardRepository = {
+export const boardUsecase = {
   getBoard: () => board,
   clickBoard: (x: number, y: number, userId: UserId): BoardArr => {
-    if (userColorRepository.getUserColor(userId) !== turn || board[y][x] !== 3) {
+    if (userColorUsecase.getUserColor(userId) !== turn || board[y][x] !== 3) {
       return board;
     }
-    board[y][x] = userColorRepository.getUserColor(userId);
-    changeBoardRepository.getChangeBoard(x, y, userId);
+    board[y][x] = userColorUsecase.getUserColor(userId);
+    changeBoardUsecase.getChangeBoard(x, y, userId);
     turn = 3 - turn;
-    futureBoardRepository.getfutureChangeBoard(userId);
+    futureBoardUsecase.getfutureChangeBoard(userId);
     return board;
   },
 };
