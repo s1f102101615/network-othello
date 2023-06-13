@@ -1,18 +1,25 @@
+/* eslint-disable complexity */
 import type { UserId } from '$/commonTypesWithClient/branded';
 
-const userColorDict: { black?: UserId; white?: UserId } = {};
+const userColorDict: { black?: UserId; white?: UserId; watch?:UserId[]|undefined} = {
+  watch:[],};
 export const userColorUsecase = {
   getUserColor: (userID: UserId): number => {
     if (userColorDict.black === userID) {
       return 1;
     } else if (userColorDict.white === userID) {
       return 2;
+    } else if (userColorDict.watch?.includes(userID)) {
+      return 3;
     } else if (userColorDict.black === undefined) {
       userColorDict.black = userID;
       return 1;
-    } else {
+    } else if (userColorDict.white === undefined){
       userColorDict.white = userID;
       return 2;
+    } else {
+      userColorDict.watch?.push(userID);
+      return 3;
     }
   },
 };
