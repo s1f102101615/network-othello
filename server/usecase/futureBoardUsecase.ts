@@ -1,8 +1,8 @@
 /* eslint-disable complexity */
 /* eslint-disable max-depth */
 import type { UserId } from '$/commonTypesWithClient/branded';
-import { boardUsecase } from './boardUsecase';
 import { userColorUsecase } from './userColorUsecase';
+
 
 const directions = [
   [-1, 0], // 上
@@ -15,9 +15,9 @@ const directions = [
   [-1, -1], // 左上
 ];
 export const futureBoardUsecase = {
-  getfutureChangeBoard: (color: UserId): number[][] => {
-    const newfutureBoard = boardUsecase.getBoard();
-
+  getfutureChangeBoard: (color: UserId,board: number[][]): number[][] => {
+    const newfutureBoard = board;
+  
     for (let tate = 0; tate < 8; tate++) {
       for (let yoko = 0; yoko < 8; yoko++) {
         if (newfutureBoard[tate][yoko] === 3) {

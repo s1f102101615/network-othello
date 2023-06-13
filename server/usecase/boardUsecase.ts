@@ -22,10 +22,11 @@ export const boardUsecase = {
     if (userColorUsecase.getUserColor(userId) !== turn || board[y][x] !== 3) {
       return board;
     }
+    console.log(x,y)
     board[y][x] = userColorUsecase.getUserColor(userId);
-    changeBoardUsecase.getChangeBoard(x, y, userId);
+    changeBoardUsecase.getChangeBoard(x, y, userId,board);
     turn = 3 - turn;
-    futureBoardUsecase.getfutureChangeBoard(userId);
+    futureBoardUsecase.getfutureChangeBoard(userId,board);
     return board;
   },
 };

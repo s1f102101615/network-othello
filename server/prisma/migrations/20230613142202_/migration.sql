@@ -1,0 +1,2 @@
+-- AlterTable
+ALTER TABLE "UserOnRoom" ALTER COLUMN "out" DROP NOT NULL;

@@ -1,9 +1,7 @@
 /* eslint-disable complexity */
 /* eslint-disable max-depth */
 import type { UserId } from '$/commonTypesWithClient/branded';
-import { boardUsecase } from './boardUsecase';
 import { userColorUsecase } from './userColorUsecase';
-
 const directions = [
   [-1, 0], // 上
   [-1, 1], // 右上
@@ -15,8 +13,8 @@ const directions = [
   [-1, -1], // 左上
 ];
 export const changeBoardUsecase = {
-  getChangeBoard: (x: number, y: number, color: UserId): number[][] => {
-    const newBoard = boardUsecase.getBoard();
+  getChangeBoard: (x: number, y: number, color: UserId,board: number[][]): number[][] => {
+    const newBoard = board
 
     for (const d of directions) {
       if (
