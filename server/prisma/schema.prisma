@@ -16,7 +16,7 @@ model Task {
 
 model Room {
   userOnRoom UserOnRoom[]
-  //hoge
+  name       String
   roomId     String       @id
   board      Json
   status     String
