@@ -32,6 +32,7 @@ const Home = () => {
 
   if (!board || !user) return <Loading visible />;
 
+  // ロビーを作る
   return (
     <>
       <BasicHeader user={user} />
