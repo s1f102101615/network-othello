@@ -10,6 +10,7 @@ const toRoomModel = (prismaRoom: Room): RoomModel=> ({
   status: z.enum(['waiting', 'playing', 'ended']).parse(prismaRoom.status),
   created: prismaRoom.createdAt.getTime(),
 });
+
 export const roomsRepository = {
   save: async (room: RoomModel) => {
     await prismaClient.room.upsert({

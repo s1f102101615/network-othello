@@ -1,4 +1,5 @@
-import type { TaskModel } from '$/commonTypesWithClient/models';
+/* eslint-disable max-depth */
+import type { RoomModel, TaskModel } from '$/commonTypesWithClient/models';
 import { useAtom } from 'jotai';
 import type { ChangeEvent, FormEvent } from 'react';
 import { useEffect, useState } from 'react';
@@ -13,6 +14,7 @@ const Home = () => {
   const [user] = useAtom(userAtom);
   const [tasks, setTasks] = useState<TaskModel[] | undefined>(undefined);
   const [label, setLabel] = useState('');
+  const [rooms, setRooms] = useState<RoomModel[] | undefined>(undefined);
   const inputLabel = (e: ChangeEvent<HTMLInputElement>) => {
     setLabel(e.target.value);
   };
@@ -21,6 +23,17 @@ const Home = () => {
 
     if (tasks !== null) setTasks(tasks);
   };
+  const fetchRooms = async () => {
+    try {
+      const newRoom = await apiClient.rooms.$get().catch(returnNull);
+      if (newRoom !== null) {
+        setRooms([newRoom]); // 部屋オブジェクトを配列に変換して設定
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+  
   const createTask = async (e: FormEvent) => {
     e.preventDefault();
     if (!label) return;
@@ -29,6 +42,14 @@ const Home = () => {
     setLabel('');
     await fetchTasks();
   };
+  // const createRoom = async (e: FormEvent) => {
+  //   e.preventDefault();
+  //   if (!label) return; 
+  //   await apiClient.rooms.post({ body: { name } });
+
+  //   await fetchRooms();
+  // };
+  
   const toggleDone = async (task: TaskModel) => {
     await apiClient.tasks._taskId(task.id).patch({ body: { done: !task.done } });
     await fetchTasks();
@@ -40,6 +61,7 @@ const Home = () => {
 
   useEffect(() => {
     fetchTasks();
+    fetchRooms();
   }, []);
 
   if (!tasks || !user) return <Loading visible />;
@@ -71,7 +93,23 @@ const Home = () => {
           </li>
         ))}
       </ul>
+      <div>
+      <h1>オセロロビー</h1>
+      <ul>
+  {rooms?.length ? (
+    rooms.map((room) => (
+      <li key={room.id}>
+        RoomId: {room.id}, Name: {room.name}
+      </li>
+    ))
+  ) : (
+    <li>No rooms available</li>
+  )}
+</ul>
+
+    </div>
     </>
+    
   );
 };
 
