@@ -1,5 +1,5 @@
 /* eslint-disable complexity */
-import type { RoomModel } from '$/commonTypesWithClient/models';
+import assert from 'assert';
 import { useAtom } from 'jotai';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
@@ -17,20 +17,16 @@ const OthelloPage = () => {
   const [user] = useAtom(userAtom);
   const [board, setBoard] = useState<number[][]>();
   const fetchBoard = async () => {
-    const rooms = await apiClient.rooms.$get({ id: RoomId }).catch(returnNull);
-    if (rooms === null) {
-      const roomData: Pick<RoomModel, 'name'> = {
-        name: 'デフォルトルーム',
-      };
-      const newRoom = await apiClient.rooms.$post({ body: roomData });
-      setBoard(newRoom[0].board); // `newRoom[0].board`に修正
-    } else {
-      setBoard(rooms[0].board); // `rooms[0].board`に修正
-    }
+    const roomlist = await apiClient.rooms.$get().catch(returnNull);
+    assert(roomlist, 'クリック出来てるんだからRoomが無いわけがない');
+    const rooms = roomlist.find((room) => room.id === RoomId);
+    assert(rooms, 'クリック出来てるんだからIDが合わないわけない');
+
+    setBoard(rooms.board); // `rooms[0].board`に修正
   };
 
   const clickCell = async (x: number, y: number) => {
-    await apiClient.rooms.board.$post({ body: { x, y } });
+    await apiClient.rooms.board.$post({ body: { x, y, RoomId } });
     await fetchBoard();
   };
 

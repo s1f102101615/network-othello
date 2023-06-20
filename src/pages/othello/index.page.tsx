@@ -1,4 +1,5 @@
 /* eslint-disable complexity */
+import type { RoomModel } from '$/commonTypesWithClient/models';
 import { useAtom } from 'jotai';
 import { useEffect, useState } from 'react';
 import { Loading } from 'src/components/Loading/Loading';
@@ -7,7 +8,6 @@ import { apiClient } from 'src/utils/apiClient';
 import { returnNull } from 'src/utils/returnNull';
 import { userAtom } from '../../atoms/user';
 import styles from './othello.module.css';
-import type { RoomModel } from '$/commonTypesWithClient/models';
 
 const Home = () => {
   const [user] = useAtom(userAtom);
@@ -15,12 +15,13 @@ const Home = () => {
   const fetchBoard = async () => {
     const board = await apiClient.rooms.$get().catch(returnNull);
     if (board === null) {
-      const roomData: Pick<RoomModel, "name"> = { 
+      const roomData: Pick<RoomModel, 'name'> = {
         name: 'デフォルトルーム',
       };
       const newRoom = await apiClient.rooms.$post({ body: roomData });
       setBoard(newRoom.board);
-    }''
+    }
+    ('');
     if (board !== null) setBoard(board.board);
   };
 
