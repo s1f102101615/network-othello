@@ -34,21 +34,27 @@ const Home = () => {
     }
   };
   
-  const createTask = async (e: FormEvent) => {
+  // const createTask = async (e: FormEvent) => {
+  //   e.preventDefault();
+  //   if (!label) return;
+
+  //   await apiClient.tasks.post({ body: { label } });
+  //   setLabel('');
+  //   await fetchTasks();
+  // };
+  const createRoom = async (e: FormEvent) => {
     e.preventDefault();
     if (!label) return;
-
-    await apiClient.tasks.post({ body: { label } });
+  
+    const roomData: Pick<RoomModel, "name"> = {
+      name: label,
+    };
+  
+    await apiClient.rooms.post({ body: roomData });
     setLabel('');
-    await fetchTasks();
+    await fetchRooms();
   };
-  // const createRoom = async (e: FormEvent) => {
-  //   e.preventDefault();
-  //   if (!label) return; 
-  //   await apiClient.rooms.post({ body: { name } });
-
-  //   await fetchRooms();
-  // };
+  
   
   const toggleDone = async (task: TaskModel) => {
     await apiClient.tasks._taskId(task.id).patch({ body: { done: !task.done } });
@@ -73,7 +79,7 @@ const Home = () => {
         Welcome to frourio!
       </div>
 
-      <form style={{ textAlign: 'center', marginTop: '80px' }} onSubmit={createTask}>
+      <form style={{ textAlign: 'center', marginTop: '80px' }} onSubmit={createRoom}>
         <input value={label} type="text" onChange={inputLabel} />
         <input type="submit" value="ADD" />
       </form>
@@ -95,6 +101,7 @@ const Home = () => {
       </ul>
       <div>
       <h1>オセロロビー</h1>
+      
       <ul>
   {rooms?.length ? (
     rooms.map((room) => (

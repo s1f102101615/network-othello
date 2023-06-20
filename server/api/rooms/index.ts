@@ -5,6 +5,7 @@ export type Methods = {
     resBody: RoomModel | null;
   };
   post: {
+    reqBody: Pick<RoomModel, 'name'>
     resBody: RoomModel;
   };
 };

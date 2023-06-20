@@ -19,9 +19,9 @@ const initBoard = () => [
 ]
 let turn = 1;
 export const roomUsecase = {
-  create: async () => {
+  create: async (label: RoomModel['name']) => {
     const newRoom: RoomModel = {
-      name : 'あいうえお',
+      name:label,
       id: roomIdParser.parse(randomUUID()),
       board: initBoard(),
       status:'waiting',
