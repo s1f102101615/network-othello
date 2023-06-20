@@ -20,21 +20,18 @@ const Home = () => {
   };
   const fetchTasks = async () => {
     const tasks = await apiClient.tasks.$get().catch(returnNull);
-    console.log(tasks)
+    console.log(tasks);
 
     if (tasks !== null) setTasks(tasks);
   };
   const fetchRooms = async () => {
     const newRoom = await apiClient.rooms.$get().catch(returnNull);
-    console.log(newRoom)
+    console.log(newRoom);
     if (newRoom !== null) {
-      setRooms(prevRooms => (prevRooms !== undefined ? [...prevRooms, newRoom] : [newRoom]));
+      setRooms(newRoom);
     }
   };
-  
-  
-  
-  
+
   // const createTask = async (e: FormEvent) => {
   //   e.preventDefault();
   //   if (!label) return;
@@ -46,17 +43,16 @@ const Home = () => {
   const createRoom = async (e: FormEvent) => {
     e.preventDefault();
     if (!label) return;
-  
-    const roomData: Pick<RoomModel, "name"> = {
+
+    const roomData: Pick<RoomModel, 'name'> = {
       name: label,
     };
-  
+
     await apiClient.rooms.post({ body: roomData });
     setLabel('');
     await fetchRooms();
   };
-  
-  
+
   const toggleDone = async (task: TaskModel) => {
     await apiClient.tasks._taskId(task.id).patch({ body: { done: !task.done } });
     await fetchTasks();
@@ -101,23 +97,21 @@ const Home = () => {
         ))}
       </ul>
       <div>
-      <h1>オセロロビー</h1>
-      
-      <ul>
-  {rooms?.length ? (
-    rooms.map((room) => (
-      <li key={room.id}>
-        RoomId: {room.id}, Name: {room.name}
-      </li>
-    ))
-  ) : (
-    <li>No rooms available</li>
-  )}
-</ul>
+        <h1>オセロロビー</h1>
 
-    </div>
+        <ul>
+          {rooms?.length ? (
+            rooms.map((room) => (
+              <li key={room.id}>
+                RoomId: {room.id}, Name: {room.name}
+              </li>
+            ))
+          ) : (
+            <li>No rooms available</li>
+          )}
+        </ul>
+      </div>
     </>
-    
   );
 };
 
