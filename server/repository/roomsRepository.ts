@@ -26,8 +26,9 @@ export const roomsRepository = {
     });
   },
   findLatest: async () : Promise<RoomModel | null> => {
-    const room = await prismaClient.room.findFirst({
+    const room = await prismaClient.room.findMany({
     orderBy: { createdAt: 'desc'},
+    
   })
   return room && toRoomModel(room); 
  },

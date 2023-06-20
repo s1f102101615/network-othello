@@ -20,19 +20,20 @@ const Home = () => {
   };
   const fetchTasks = async () => {
     const tasks = await apiClient.tasks.$get().catch(returnNull);
+    console.log(tasks)
 
     if (tasks !== null) setTasks(tasks);
   };
   const fetchRooms = async () => {
-    try {
-      const newRoom = await apiClient.rooms.$get().catch(returnNull);
-      if (newRoom !== null) {
-        setRooms([newRoom]); // 部屋オブジェクトを配列に変換して設定
-      }
-    } catch (error) {
-      console.error(error);
+    const newRoom = await apiClient.rooms.$get().catch(returnNull);
+    console.log(newRoom)
+    if (newRoom !== null) {
+      setRooms(prevRooms => (prevRooms !== undefined ? [...prevRooms, newRoom] : [newRoom]));
     }
   };
+  
+  
+  
   
   // const createTask = async (e: FormEvent) => {
   //   e.preventDefault();
