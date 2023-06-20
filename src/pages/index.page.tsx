@@ -1,6 +1,7 @@
 /* eslint-disable max-depth */
 import type { RoomModel, TaskModel } from '$/commonTypesWithClient/models';
 import { useAtom } from 'jotai';
+import Link from 'next/link';
 import type { ChangeEvent, FormEvent } from 'react';
 import { useEffect, useState } from 'react';
 import { Loading } from 'src/components/Loading/Loading';
@@ -101,10 +102,12 @@ const Home = () => {
 
         <ul>
           {rooms?.length ? (
-            rooms.map((room) => (
-              <li key={room.id}>
-                RoomId: {room.id}, Name: {room.name}
-              </li>
+            [...rooms].reverse().map((room) => (
+              <Link href={`/othello/${room.id}`} key={room.id}>
+                <li key={room.id}>
+                  RoomId: {room.id}, Name: {room.name}
+                </li>
+              </Link>
             ))
           ) : (
             <li>No rooms available</li>
