@@ -17,6 +17,9 @@ model Task {
 model Room {
   userOnRoom UserOnRoom[]
   name       String
+  black      String
+  white      String
+  watcher    String
   roomId     String       @id
   board      Json
   status     String

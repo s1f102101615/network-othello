@@ -48,7 +48,7 @@ const Home = () => {
     const roomData: Pick<RoomModel, 'name'> = {
       name: label,
     };
-
+    console.log('できてるよ');
     await apiClient.rooms.post({ body: roomData });
     setLabel('');
     await fetchRooms();

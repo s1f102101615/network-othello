@@ -41,12 +41,12 @@ const OthelloPage = () => {
   return (
     <>
       <BasicHeader user={user} />
+      <div>
+        <h1>Othello Page</h1>
+        <p>Dynamic ID: {RoomId}</p>
+        {/* ここに実際のコンテンツを追加 */}
+      </div>
       <div className={styles.container}>
-        <div>
-          <h1>Othello Page</h1>
-          <p>Dynamic ID: {RoomId}</p>
-          {/* ここに実際のコンテンツを追加 */}
-        </div>
         {/* <a className={styles.turn}>現在 {turn === 1 ? '黒' : '白'} のターン</a> */}
         {/* <div className={styles.black}>
           <a className={styles.blackname}>黒{blackCount}個</a>

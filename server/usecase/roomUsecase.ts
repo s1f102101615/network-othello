@@ -22,6 +22,9 @@ export const roomUsecase = {
   create: async (label: RoomModel['name']) => {
     const newRoom: RoomModel = {
       name: label,
+      black: undefined,
+      white: undefined,
+      watcher: undefined,
       id: roomIdParser.parse(randomUUID()),
       board: initBoard(),
       status: 'waiting',
@@ -44,11 +47,12 @@ export const roomUsecase = {
     assert(rooms, 'クリック出来てるんだからIDが合わないわけない');
 
     const newBoard: number[][] = JSON.parse(JSON.stringify(rooms.board));
-    if (userColorUsecase.getUserColor(userId) !== turn || newBoard[y][x] !== 3) {
+    const userColor = await userColorUsecase.getUserColor(userId, RoomId);
+    if (userColor !== turn || newBoard[y][x] !== 3) {
       const newRoom: RoomModel = { ...rooms, board: newBoard };
       return newRoom;
     }
-    newBoard[y][x] = userColorUsecase.getUserColor(userId);
+    newBoard[y][x] = userColor;
     const cong = changeBoardUsecase.getChangeBoard(x, y, userId, newBoard);
     turn = 3 - turn;
     const tong = futureBoardUsecase.getfutureChangeBoard(userId, cong);

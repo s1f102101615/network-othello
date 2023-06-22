@@ -1,4 +1,4 @@
-import type { TaskId, UserId , RoomId } from './branded';
+import type { RoomId, TaskId, UserId } from './branded';
 
 export type UserModel = {
   id: UserId;
@@ -16,8 +16,11 @@ export type TaskModel = {
 
 export type RoomModel = {
   name: string;
+  black: UserId | undefined;
+  white: UserId | undefined;
+  watcher: UserId[] | undefined;
   id: RoomId;
   board: number[][];
   status: 'waiting' | 'playing' | 'ended';
-  created:number;
+  created: number;
 };
