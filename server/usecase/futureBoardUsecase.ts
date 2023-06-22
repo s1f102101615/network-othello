@@ -3,7 +3,6 @@
 import type { UserId } from '$/commonTypesWithClient/branded';
 import { userColorUsecase } from './userColorUsecase';
 
-
 const directions = [
   [-1, 0], // 上
   [-1, 1], // 右上
@@ -15,9 +14,13 @@ const directions = [
   [-1, -1], // 左上
 ];
 export const futureBoardUsecase = {
-  getfutureChangeBoard: (color: UserId,board: number[][]): number[][] => {
+  getfutureChangeBoard: async (
+    color: UserId,
+    board: number[][],
+    RoomId: string | string[] | undefined
+  ): Promise<number[][]> => {
     const newfutureBoard = board;
-  
+
     for (let tate = 0; tate < 8; tate++) {
       for (let yoko = 0; yoko < 8; yoko++) {
         if (newfutureBoard[tate][yoko] === 3) {
@@ -28,11 +31,12 @@ export const futureBoardUsecase = {
             if (
               newfutureBoard[tate + d[0]] !== undefined &&
               newfutureBoard[tate + d[0]][yoko + d[1]] !== undefined &&
-              newfutureBoard[tate + d[0]][yoko + d[1]] === userColorUsecase.getUserColor(color)
+              newfutureBoard[tate + d[0]][yoko + d[1]] ===
+                (await userColorUsecase.getUserColor(color, RoomId))
             ) {
               if (
                 newfutureBoard[tate + d[0]][yoko + d[1]] !==
-                3 - userColorUsecase.getUserColor(color)
+                3 - (await userColorUsecase.getUserColor(color, RoomId))
               ) {
                 for (let p = 2; p < 8; p++) {
                   if (
@@ -45,7 +49,7 @@ export const futureBoardUsecase = {
                   }
                   if (
                     newfutureBoard[tate + d[0] * p][yoko + d[1] * p] ===
-                    3 - userColorUsecase.getUserColor(color)
+                    3 - (await userColorUsecase.getUserColor(color, RoomId))
                   ) {
                     newfutureBoard[tate][yoko] = 3;
                   }

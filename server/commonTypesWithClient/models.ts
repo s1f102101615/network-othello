@@ -18,7 +18,7 @@ export type RoomModel = {
   name: string;
   black: UserId | undefined;
   white: UserId | undefined;
-  watcher: UserId[] | undefined;
+  watcher: UserId[];
   id: RoomId;
   board: number[][];
   status: 'waiting' | 'playing' | 'ended';

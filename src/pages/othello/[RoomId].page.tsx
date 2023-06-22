@@ -22,7 +22,7 @@ const OthelloPage = () => {
     const rooms = roomlist.find((room) => room.id === RoomId);
     assert(rooms, 'クリック出来てるんだからIDが合わないわけない');
 
-    setBoard(rooms.board); // `rooms[0].board`に修正
+    setBoard(rooms.board);
   };
 
   const clickCell = async (x: number, y: number) => {

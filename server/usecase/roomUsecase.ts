@@ -24,7 +24,7 @@ export const roomUsecase = {
       name: label,
       black: undefined,
       white: undefined,
-      watcher: undefined,
+      watcher: [],
       id: roomIdParser.parse(randomUUID()),
       board: initBoard(),
       status: 'waiting',
@@ -53,10 +53,10 @@ export const roomUsecase = {
       return newRoom;
     }
     newBoard[y][x] = userColor;
-    const cong = changeBoardUsecase.getChangeBoard(x, y, userId, newBoard);
+    const cong = changeBoardUsecase.getChangeBoard(x, y, userId, newBoard, RoomId);
     turn = 3 - turn;
-    const tong = futureBoardUsecase.getfutureChangeBoard(userId, cong);
-    const newRoom: RoomModel = { ...rooms, board: tong };
+    const tong = futureBoardUsecase.getfutureChangeBoard(userId, await cong, RoomId);
+    const newRoom: RoomModel = { ...rooms, board: await tong };
 
     await roomsRepository.save(newRoom);
 

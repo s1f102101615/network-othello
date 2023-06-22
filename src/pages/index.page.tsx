@@ -48,7 +48,6 @@ const Home = () => {
     const roomData: Pick<RoomModel, 'name'> = {
       name: label,
     };
-    console.log('できてるよ');
     await apiClient.rooms.post({ body: roomData });
     setLabel('');
     await fetchRooms();
@@ -105,7 +104,13 @@ const Home = () => {
             [...rooms].reverse().map((room) => (
               <Link href={`/othello/${room.id}`} key={room.id}>
                 <li key={room.id}>
-                  RoomId: {room.id}, Name: {room.name}
+                  RoomId: {room.id}, Name: {room.name}, 参加人数{' '}
+                  {room.black !== 'undefined' && room.white !== 'undefined'
+                    ? 2
+                    : room.black !== 'undefined' || room.white !== 'undefined'
+                    ? 1
+                    : 0}
+                  人 観戦者数 {room.watcher.length - 1}人
                 </li>
               </Link>
             ))

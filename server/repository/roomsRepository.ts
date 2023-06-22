@@ -22,6 +22,9 @@ export const roomsRepository = {
       update: {
         status: room.status,
         board: room.board,
+        black: String(room.black),
+        white: String(room.white),
+        watcher: String(room.watcher),
       },
       create: {
         name: room.name || 'defaultName',

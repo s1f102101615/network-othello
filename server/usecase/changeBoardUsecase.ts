@@ -13,18 +13,24 @@ const directions = [
   [-1, -1], // 左上
 ];
 export const changeBoardUsecase = {
-  getChangeBoard: (x: number, y: number, color: UserId,board: number[][]): number[][] => {
-    const newBoard = board
+  getChangeBoard: async (
+    x: number,
+    y: number,
+    color: UserId,
+    board: number[][],
+    RoomId: string | string[] | undefined
+  ): Promise<number[][]> => {
+    const newBoard = board;
 
     for (const d of directions) {
       if (
         newBoard[y + d[0]] !== undefined &&
         newBoard[y + d[0]][x + d[1]] !== undefined &&
         newBoard[y + d[0]][x + d[1]] !== 0 &&
-        newBoard[y + d[0]][x + d[1]] !== userColorUsecase.getUserColor(color)
+        newBoard[y + d[0]][x + d[1]] !== (await userColorUsecase.getUserColor(color, RoomId))
       ) {
         if (
-          newBoard[y + d[0]][x + d[1]] !== userColorUsecase.getUserColor(color) &&
+          newBoard[y + d[0]][x + d[1]] !== (await userColorUsecase.getUserColor(color, RoomId)) &&
           newBoard[y + d[0]][x + d[1]] !== 3
         ) {
           let rturn = 2;
@@ -37,12 +43,15 @@ export const changeBoardUsecase = {
             ) {
               break;
             }
-            if (newBoard[y + d[0] * p][x + d[1] * p] === userColorUsecase.getUserColor(color)) {
-              newBoard[y][x] = userColorUsecase.getUserColor(color);
+            if (
+              newBoard[y + d[0] * p][x + d[1] * p] ===
+              (await userColorUsecase.getUserColor(color, RoomId))
+            ) {
+              newBoard[y][x] = await userColorUsecase.getUserColor(color, RoomId);
 
               for (let now = 1; now < rturn; now++) {
                 newBoard[y + d[0] * (p - now)][x + d[1] * (p - now)] =
-                  userColorUsecase.getUserColor(color);
+                  await userColorUsecase.getUserColor(color, RoomId);
               }
             }
             rturn++;
