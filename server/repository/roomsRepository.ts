@@ -10,6 +10,7 @@ const toRoomModel = (prismaRoom: Room): RoomModel => ({
   white: UserIdParser.parse(prismaRoom.white),
   watcher: prismaRoom.watcher.split(',').map((watcher) => UserIdParser.parse(watcher.trim())),
   id: roomIdParser.parse(prismaRoom.roomId),
+  turn: prismaRoom.turn,
   board: z.array(z.array(z.number())).parse(prismaRoom.board),
   status: z.enum(['waiting', 'playing', 'ended']).parse(prismaRoom.status),
   created: prismaRoom.createdAt.getTime(),
@@ -25,6 +26,7 @@ export const roomsRepository = {
         black: String(room.black),
         white: String(room.white),
         watcher: String(room.watcher),
+        turn: room.turn,
       },
       create: {
         name: room.name || 'defaultName',
@@ -32,6 +34,7 @@ export const roomsRepository = {
         black: String(room.black),
         white: String(room.white),
         watcher: String(room.watcher),
+        turn: 1,
         board: room.board,
         status: room.status,
         createdAt: new Date(room.created),

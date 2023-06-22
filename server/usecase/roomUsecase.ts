@@ -17,7 +17,6 @@ const initBoard = () => [
   [0, 0, 0, 0, 0, 0, 0, 0],
   [0, 0, 0, 0, 0, 0, 0, 0],
 ];
-let turn = 1;
 export const roomUsecase = {
   create: async (label: RoomModel['name']) => {
     const newRoom: RoomModel = {
@@ -25,6 +24,7 @@ export const roomUsecase = {
       black: undefined,
       white: undefined,
       watcher: [],
+      turn: 1,
       id: roomIdParser.parse(randomUUID()),
       board: initBoard(),
       status: 'waiting',
@@ -48,15 +48,16 @@ export const roomUsecase = {
 
     const newBoard: number[][] = JSON.parse(JSON.stringify(rooms.board));
     const userColor = await userColorUsecase.getUserColor(userId, RoomId);
-    if (userColor !== turn || newBoard[y][x] !== 3) {
+    if (userColor !== rooms.turn || newBoard[y][x] !== 3) {
       const newRoom: RoomModel = { ...rooms, board: newBoard };
       return newRoom;
     }
     newBoard[y][x] = userColor;
     const cong = changeBoardUsecase.getChangeBoard(x, y, userId, newBoard, RoomId);
-    turn = 3 - turn;
+    const setturn: RoomModel = { ...rooms, turn: 3 - rooms.turn };
+    await roomsRepository.save(setturn);
     const tong = futureBoardUsecase.getfutureChangeBoard(userId, await cong, RoomId);
-    const newRoom: RoomModel = { ...rooms, board: await tong };
+    const newRoom: RoomModel = { ...rooms, board: await tong, turn: 3 - rooms.turn };
 
     await roomsRepository.save(newRoom);
 
