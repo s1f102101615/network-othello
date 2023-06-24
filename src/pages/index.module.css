@@ -1,6 +1,6 @@
 .title {
-  font-size: 80px;
-  text-align: center;
+  font-size: 60px;
+  text-align: left;
   font-weight: bold;
 }
 
@@ -19,4 +19,213 @@
 
 .deleteBtn {
   float: right;
+}
+
+.radiusLine {
+  margin: 2em auto;
+  padding: 1em;
+  width: 90%; /* ボックス幅 */
+  background-color: #eeffff; /* ボックス背景色 */
+  color: #666; /* 文章色 */
+  box-shadow: 0 0 5px 1px #c0c0c0;
+  font-size: 20px;
+}
+
+.spans {
+  border-style: none none double;
+  border-color: #907b6e; /*タイトル下線 */
+  border-width: 3px;
+  font-size: 25px;
+}
+.btncontainer {
+  text-align: center;
+}
+
+.button {
+  width: 80%;
+  height: 50px;
+  font-size: 18px;
+  font-weight: bold;
+
+  /* ボタンにカーソルを当てると、カーソルがポインターに変わる */
+  cursor: pointer;
+}
+
+/* ボタンにカーソルを当てたとき、ボタンを半透明にする */
+.button:hover {
+  opacity: 0.7;
+}
+
+.hidden {
+  display: none;
+}
+
+.mask {
+  background: rgba(0, 0, 0, 0.7);
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  z-index: 1;
+}
+
+.modal {
+  background: #fff;
+  width: 330px;
+  height: 240px;
+  padding: 24px;
+  border-radius: 4px;
+  color: rgb(0, 0, 0);
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  margin: 0 auto;
+  z-index: 2;
+}
+
+.submit {
+  color: #fff;
+  background-color: #eb6100;
+  font-size: 1.3rem;
+  font-weight: 800;
+  line-height: 1;
+  position: relative;
+  display: inline-block;
+  padding: 1rem 4rem;
+  cursor: pointer;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  -webkit-transition: all 0.3s;
+  transition: all 0.3s;
+  text-align: center;
+  vertical-align: middle;
+  text-decoration: none;
+  letter-spacing: 0.1em;
+  color: #212529;
+  border-radius: 0.5rem;
+  width: 180px;
+}
+
+.submit:hover {
+  color: #fff;
+  background: #f56500;
+}
+
+.inpute {
+  position: relative;
+  width: 180px;
+  height: 30px;
+}
+
+.inpute input[type='text'] {
+  font: 15px/24px sans-serif;
+  box-sizing: border-box;
+  width: 100%;
+  padding: 0.3em;
+  padding-left: 40px;
+  letter-spacing: 1px;
+  border: 0;
+}
+.inpute input[type='text']:focus {
+  outline: none;
+}
+.inpute input[type='text']:focus::after {
+  outline: none;
+}
+.inpute::after {
+  display: block;
+  width: 100%;
+  height: 4px;
+  margin-top: -1px;
+  content: '';
+  border-width: 0 1px 1px 1px;
+  border-style: solid;
+  border-color: #da3c41;
+}
+
+.square_btn {
+  display: block;
+  position: relative;
+  width: 30px;
+  height: 30px;
+  border: 2px solid #333; /* 枠の調整 */
+  background: #fff; /* ボタンの背景色 */
+}
+
+.square_btn::before,
+.square_btn::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 3px; /* 棒の幅（太さ） */
+  height: 27px; /* 棒の高さ */
+  background: #333; /* バツ印の色 */
+}
+
+.square_btn::before {
+  transform: translate(-50%, -50%) rotate(45deg);
+}
+
+.square_btn::after {
+  transform: translate(-50%, -50%) rotate(-45deg);
+}
+
+a.btnflat {
+  overflow: hidden;
+  padding: 1.5rem 6rem;
+  color: #fff;
+  border-radius: 0;
+  background: #000;
+  overflow: hidden;
+}
+
+a.btnflat span {
+  position: relative;
+}
+
+a.btnflat:before {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  content: '';
+  -webkit-transition: all 0.5s ease-in-out;
+  transition: all 0.5s ease-in-out;
+  -webkit-transform: translateX(-96%);
+  transform: translateX(-96%);
+  background: #eb6877;
+}
+
+a.btnflat:hover:before {
+  -webkit-transform: translateX(0%);
+  transform: translateX(0%);
+}
+
+a.btn {
+  font-size: 1.6rem;
+  font-weight: 700;
+  line-height: 1.5;
+  position: relative;
+  display: inline-block;
+  padding: 1rem 4rem;
+  cursor: pointer;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  -webkit-transition: all 0.3s;
+  transition: all 0.3s;
+  text-align: center;
+  vertical-align: middle;
+  text-decoration: none;
+  letter-spacing: 0.1em;
+  color: #ffffff;
+  border-radius: 0.5rem;
 }

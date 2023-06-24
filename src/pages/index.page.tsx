@@ -1,3 +1,4 @@
+/* eslint-disable complexity */
 /* eslint-disable max-depth */
 import type { RoomModel, TaskModel } from '$/commonTypesWithClient/models';
 import { useAtom } from 'jotai';
@@ -16,6 +17,14 @@ const Home = () => {
   const [tasks, setTasks] = useState<TaskModel[] | undefined>(undefined);
   const [label, setLabel] = useState('');
   const [rooms, setRooms] = useState<RoomModel[] | undefined>(undefined);
+  const [hidden, setHidden] = useState(1);
+
+  const handleBtn3Click = () => {
+    setHidden(0);
+  };
+  const handleBtn2Click = () => {
+    setHidden(1);
+  };
   const inputLabel = (e: ChangeEvent<HTMLInputElement>) => {
     setLabel(e.target.value);
   };
@@ -41,6 +50,7 @@ const Home = () => {
   //   setLabel('');
   //   await fetchTasks();
   // };
+
   const createRoom = async (e: FormEvent) => {
     e.preventDefault();
     if (!label) return;
@@ -53,72 +63,65 @@ const Home = () => {
     await fetchRooms();
   };
 
-  const toggleDone = async (task: TaskModel) => {
-    await apiClient.tasks._taskId(task.id).patch({ body: { done: !task.done } });
-    await fetchTasks();
-  };
-  const deleteTask = async (task: TaskModel) => {
-    await apiClient.tasks._taskId(task.id).delete();
-    await fetchTasks();
-  };
-
   useEffect(() => {
     fetchTasks();
     fetchRooms();
   }, []);
 
   if (!tasks || !user) return <Loading visible />;
+  //残りはcss!
 
   return (
     <>
       <BasicHeader user={user} />
-      <div className={styles.title} style={{ marginTop: '160px' }}>
-        Welcome to frourio!
+      <div className={styles.title}>FrouriOthello</div>
+      <div className={styles.btncontainer}>
+        <a className={`${styles.btnflat} ${styles.btn}`} onClick={handleBtn3Click}>
+          <span>ルーム作成</span>
+        </a>
       </div>
-
-      <form style={{ textAlign: 'center', marginTop: '80px' }} onSubmit={createRoom}>
-        <input value={label} type="text" onChange={inputLabel} />
-        <input type="submit" value="ADD" />
-      </form>
-      <ul className={styles.tasks}>
-        {tasks.map((task) => (
-          <li key={task.id}>
-            <label>
-              <input type="checkbox" checked={task.done} onChange={() => toggleDone(task)} />
-              <span>{task.label}</span>
-            </label>
-            <input
-              type="button"
-              value="DELETE"
-              className={styles.deleteBtn}
-              onClick={() => deleteTask(task)}
-            />
-          </li>
-        ))}
-      </ul>
+      <div id="mask" className={styles.mask} style={{ display: hidden === 1 ? 'none' : 'block' }} />
+      <section className={styles.modal} style={{ display: hidden === 1 ? 'none' : 'block' }}>
+        <span className={styles.square_btn} onClick={handleBtn2Click} />
+        <h1 style={{ textAlign: 'center', marginTop: '10px' }}>ルーム作成</h1>
+        <form style={{ textAlign: 'center', marginTop: '20px' }} onSubmit={createRoom}>
+          <input
+            className={styles.inpute}
+            value={label}
+            type="text"
+            onChange={inputLabel}
+            placeholder="部屋の名前"
+          />
+          <br />
+          <input
+            type="submit"
+            style={{ textAlign: 'center', marginTop: '5px' }}
+            onClick={handleBtn2Click}
+            className={styles.submit}
+          />
+        </form>
+      </section>
 
       <div>
-        <h1>オセロロビー</h1>
-
-        <ul>
-          {rooms?.length ? (
-            [...rooms].reverse().map((room) => (
-              <Link href={`/othello/${room.id}`} key={room.id}>
-                <li key={room.id}>
-                  RoomId: {room.id}, Name: {room.name}, 参加人数{' '}
-                  {room.black !== 'undefined' && room.white !== 'undefined'
-                    ? 2
-                    : room.black !== 'undefined' || room.white !== 'undefined'
-                    ? 1
-                    : 0}
-                  人 観戦者数 {room.watcher.length - 1}人
-                </li>
-              </Link>
-            ))
-          ) : (
-            <li>No rooms available</li>
-          )}
-        </ul>
+        {rooms?.length ? (
+          [...rooms].reverse().map((room) => (
+            <Link href={`/othello/${room.id}`} key={room.id}>
+              <div key={room.id} className={styles.radiusLine}>
+                <span className={styles.spans}>{room.name}</span>
+                <br />
+                参加人数{' '}
+                {room.black !== 'undefined' && room.white !== 'undefined'
+                  ? 2
+                  : room.black !== 'undefined' || room.white !== 'undefined'
+                  ? 1
+                  : 0}
+                人 観戦者数 {room.watcher.length - 1}人
+              </div>
+            </Link>
+          ))
+        ) : (
+          <li>No rooms available</li>
+        )}
       </div>
     </>
   );
