@@ -16,13 +16,25 @@ const OthelloPage = () => {
 
   const [user] = useAtom(userAtom);
   const [board, setBoard] = useState<number[][]>();
+  const [blackCount, setBlackCount] = useState(0);
+  const [whiteCount, setWhiteCount] = useState(0);
+  const [turn, setTurn] = useState(1);
+  const [blackPlayer, setblackPlayer] = useState('-');
+  const [whitePlayer, setwhitePlayer] = useState('-');
+
   const fetchBoard = async () => {
     const roomlist = await apiClient.rooms.$get().catch(returnNull);
     assert(roomlist, 'クリック出来てるんだからRoomが無いわけがない');
     const rooms = roomlist.find((room) => room.id === RoomId);
     assert(rooms, 'クリック出来てるんだからIDが合わないわけない');
-
+    setTurn(rooms.turn);
     setBoard(rooms.board);
+    setblackPlayer(String(rooms.black));
+    setwhitePlayer(String(rooms.white));
+    const blackCount = rooms.board.flat().filter((color) => color === 1).length;
+    const whiteCount = rooms.board.flat().filter((color) => color === 2).length;
+    setBlackCount(blackCount);
+    setWhiteCount(whiteCount);
   };
 
   const clickCell = async (x: number, y: number) => {
@@ -41,19 +53,24 @@ const OthelloPage = () => {
   return (
     <>
       <BasicHeader user={user} />
-      <div>
-        <h1>Othello Page</h1>
-        <p>Dynamic ID: {RoomId}</p>
-        {/* ここに実際のコンテンツを追加 */}
-      </div>
       <div className={styles.container}>
-        {/* <a className={styles.turn}>現在 {turn === 1 ? '黒' : '白'} のターン</a> */}
-        {/* <div className={styles.black}>
+        <div className={styles.youColor}>
+          <a>
+            あなた:
+            {String(user.id) === blackPlayer
+              ? '黒'
+              : String(user.id) === whitePlayer
+              ? '白'
+              : '観戦者'}
+          </a>
+        </div>
+        <a className={styles.turn}>現在 {turn === 1 ? '黒' : '白'} のターン</a>
+        <div className={styles.black}>
           <a className={styles.blackname}>黒{blackCount}個</a>
         </div>
         <div className={styles.white}>
           <a className={styles.whitename}>白{whiteCount}個</a>
-        </div> */}
+        </div>
         {/* <a href="http://localhost:3000/" className={styles.newgame}>
           リスタート
         </a> */}

@@ -153,7 +153,7 @@
   align-items: center;
   z-index: 1;
   position: absolute;
-  top: 680px;
+  top: 16%;
   left: 1400px;
 }
 
@@ -210,4 +210,11 @@
   left: 410px;
   font-weight: bold;
   border: 2px solid black;
+}
+
+.youColor {
+  background-color: #ffffff;
+  z-index: 3;
+  margin-top: 720px;
+  font-size: 170%;
 }
