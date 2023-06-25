@@ -22,6 +22,7 @@ const OthelloPage = () => {
   const [blackPlayer, setblackPlayer] = useState('-');
   const [whitePlayer, setwhitePlayer] = useState('-');
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   const fetchBoard = async () => {
     const roomlist = await apiClient.rooms.$get().catch(returnNull);
     assert(roomlist, 'クリック出来てるんだからRoomが無いわけがない');
@@ -41,11 +42,10 @@ const OthelloPage = () => {
     await apiClient.rooms.board.$post({ body: { x, y, RoomId } });
     await fetchBoard();
   };
-
   useEffect(() => {
     const cancelid = setInterval(fetchBoard, 500);
     return () => clearInterval(cancelid);
-  }, []);
+  }, [fetchBoard]);
 
   if (!board || !user) return <Loading visible />;
 
