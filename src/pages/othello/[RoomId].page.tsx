@@ -21,6 +21,8 @@ const OthelloPage = () => {
   const [turn, setTurn] = useState(1);
   const [blackPlayer, setblackPlayer] = useState('-');
   const [whitePlayer, setwhitePlayer] = useState('-');
+  const [blackPlayerName, setblackPlayerName] = useState('-');
+  const [whitePlayerName, setwhitePlayerName] = useState('-');
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const fetchBoard = async () => {
@@ -32,9 +34,12 @@ const OthelloPage = () => {
     setBoard(rooms.board);
     setblackPlayer(String(rooms.black));
     setwhitePlayer(String(rooms.white));
+    setblackPlayerName(String(rooms.blackname));
+    setwhitePlayerName(String(rooms.whitename));
     await apiClient.rooms.board.$post({ body: { x: 10, y: 10, RoomId } });
     const blackCount = rooms.board.flat().filter((color) => color === 1).length;
     const whiteCount = rooms.board.flat().filter((color) => color === 2).length;
+
     setBlackCount(blackCount);
     setWhiteCount(whiteCount);
   };
@@ -56,6 +61,9 @@ const OthelloPage = () => {
     <>
       <BasicHeader user={user} />
       <div className={styles.container}>
+        <a>
+          黒の名前:{blackPlayerName} 白の名前:{whitePlayerName}
+        </a>
         <div className={styles.youColor}>
           <a>
             あなた:

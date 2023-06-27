@@ -24,6 +24,8 @@ export const roomUsecase = {
       black: undefined,
       white: undefined,
       watcher: [],
+      blackname: '',
+      whitename: '',
       turn: 1,
       id: roomIdParser.parse(randomUUID()),
       board: initBoard(),
@@ -38,7 +40,8 @@ export const roomUsecase = {
     x: number,
     y: number,
     RoomId: string | string[] | undefined,
-    userId: UserId
+    userId: UserId,
+    userDisplayName: string | undefined
   ): Promise<RoomModel> => {
     const latest = await roomsRepository.findLatest();
 
@@ -47,7 +50,7 @@ export const roomUsecase = {
     assert(rooms, 'クリック出来てるんだからIDが合わないわけない');
 
     const newBoard: number[][] = JSON.parse(JSON.stringify(rooms.board));
-    const userColor = await userColorUsecase.getUserColor(userId, RoomId);
+    const userColor = await userColorUsecase.getUserColor(userId, RoomId, userDisplayName);
     if (userColor !== rooms.turn || newBoard[y][x] !== 3) {
       const newRoom: RoomModel = { ...rooms, board: newBoard };
       return newRoom;

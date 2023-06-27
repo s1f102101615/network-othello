@@ -4,7 +4,11 @@ import { roomsRepository } from '$/repository/roomsRepository';
 import assert from 'assert';
 
 export const userColorUsecase = {
-  getUserColor: async (userID: UserId, RoomId: string | string[] | undefined): Promise<number> => {
+  getUserColor: async (
+    userID: UserId,
+    RoomId: string | string[] | undefined,
+    userDisplayName: string | undefined
+  ): Promise<number> => {
     const latest = await roomsRepository.findLatest();
     assert(latest, 'クリック出来てるんだからRoomが無いわけがない');
     const rooms = latest.find((room) => room.id === RoomId);
@@ -21,11 +25,13 @@ export const userColorUsecase = {
     } else if (rooms.black === 'undefined') {
       console.log('4');
       rooms.black = userID;
+      rooms.blackname = userDisplayName;
       await roomsRepository.save(rooms);
       return 1;
     } else if (rooms.white === 'undefined') {
       console.log('5');
       rooms.white = userID;
+      rooms.whitename = userDisplayName;
       await roomsRepository.save(rooms);
       return 2;
     } else {

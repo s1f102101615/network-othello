@@ -20,6 +20,8 @@ model Room {
   black      String
   white      String
   watcher    String
+  blackname  String
+  whitename  String
   turn       Int
   roomId     String       @id
   board      Json
