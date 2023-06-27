@@ -32,11 +32,11 @@ export const futureBoardUsecase = {
               newfutureBoard[tate + d[0]] !== undefined &&
               newfutureBoard[tate + d[0]][yoko + d[1]] !== undefined &&
               newfutureBoard[tate + d[0]][yoko + d[1]] ===
-                (await userColorUsecase.getUserColor(color, RoomId))
+                (await userColorUsecase.getUserColor(color, RoomId, undefined))
             ) {
               if (
                 newfutureBoard[tate + d[0]][yoko + d[1]] !==
-                3 - (await userColorUsecase.getUserColor(color, RoomId))
+                3 - (await userColorUsecase.getUserColor(color, RoomId, undefined))
               ) {
                 for (let p = 2; p < 8; p++) {
                   if (
@@ -49,7 +49,7 @@ export const futureBoardUsecase = {
                   }
                   if (
                     newfutureBoard[tate + d[0] * p][yoko + d[1] * p] ===
-                    3 - (await userColorUsecase.getUserColor(color, RoomId))
+                    3 - (await userColorUsecase.getUserColor(color, RoomId, undefined))
                   ) {
                     newfutureBoard[tate][yoko] = 3;
                   }

@@ -27,10 +27,12 @@ export const changeBoardUsecase = {
         newBoard[y + d[0]] !== undefined &&
         newBoard[y + d[0]][x + d[1]] !== undefined &&
         newBoard[y + d[0]][x + d[1]] !== 0 &&
-        newBoard[y + d[0]][x + d[1]] !== (await userColorUsecase.getUserColor(color, RoomId))
+        newBoard[y + d[0]][x + d[1]] !==
+          (await userColorUsecase.getUserColor(color, RoomId, undefined))
       ) {
         if (
-          newBoard[y + d[0]][x + d[1]] !== (await userColorUsecase.getUserColor(color, RoomId)) &&
+          newBoard[y + d[0]][x + d[1]] !==
+            (await userColorUsecase.getUserColor(color, RoomId, undefined)) &&
           newBoard[y + d[0]][x + d[1]] !== 3
         ) {
           let rturn = 2;
@@ -45,13 +47,13 @@ export const changeBoardUsecase = {
             }
             if (
               newBoard[y + d[0] * p][x + d[1] * p] ===
-              (await userColorUsecase.getUserColor(color, RoomId))
+              (await userColorUsecase.getUserColor(color, RoomId, undefined))
             ) {
-              newBoard[y][x] = await userColorUsecase.getUserColor(color, RoomId);
+              newBoard[y][x] = await userColorUsecase.getUserColor(color, RoomId, undefined);
 
               for (let now = 1; now < rturn; now++) {
                 newBoard[y + d[0] * (p - now)][x + d[1] * (p - now)] =
-                  await userColorUsecase.getUserColor(color, RoomId);
+                  await userColorUsecase.getUserColor(color, RoomId, undefined);
               }
             }
             rturn++;
