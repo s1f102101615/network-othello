@@ -32,6 +32,7 @@ const OthelloPage = () => {
     setBoard(rooms.board);
     setblackPlayer(String(rooms.black));
     setwhitePlayer(String(rooms.white));
+    await apiClient.rooms.board.$post({ body: { x: 10, y: 10, RoomId } });
     const blackCount = rooms.board.flat().filter((color) => color === 1).length;
     const whiteCount = rooms.board.flat().filter((color) => color === 2).length;
     setBlackCount(blackCount);
@@ -44,6 +45,7 @@ const OthelloPage = () => {
   };
   useEffect(() => {
     const cancelid = setInterval(fetchBoard, 500);
+    console.log('dsfsdsd');
     return () => clearInterval(cancelid);
   }, [fetchBoard]);
 
@@ -66,10 +68,10 @@ const OthelloPage = () => {
         </div>
         <a className={styles.turn}>現在 {turn === 1 ? '黒' : '白'} のターン</a>
         <div className={styles.black}>
-          <a className={styles.blackname}>黒{blackCount}個</a>
+          <a className={styles.blackname}>黒{blackCount || 2}個</a>
         </div>
         <div className={styles.white}>
-          <a className={styles.whitename}>白{whiteCount}個</a>
+          <a className={styles.whitename}>白{whiteCount || 2}個</a>
         </div>
         {/* <a href="http://localhost:3000/" className={styles.newgame}>
           リスタート

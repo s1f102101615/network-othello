@@ -91,6 +91,7 @@ const Home = () => {
             type="text"
             onChange={inputLabel}
             placeholder="部屋の名前"
+            autoFocus
           />
           <br />
           <input
@@ -102,10 +103,10 @@ const Home = () => {
         </form>
       </section>
 
-      <div>
+      <div className={styles.rooms}>
         {rooms?.length ? (
           [...rooms].reverse().map((room) => (
-            <Link href={`/othello/${room.id}`} key={room.id}>
+            <Link href={`/othello/${room.id}`} key={room.id} className={styles.box}>
               <div key={room.id} className={styles.radiusLine}>
                 <span className={styles.spans}>{room.name}</span>
                 <br />
@@ -115,7 +116,7 @@ const Home = () => {
                   : room.black !== 'undefined' || room.white !== 'undefined'
                   ? 1
                   : 0}
-                人 観戦者数 {room.watcher.length - 1}人
+                人 観戦者数{room.watcher.length - 1}人
               </div>
             </Link>
           ))

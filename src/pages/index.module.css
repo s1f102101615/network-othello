@@ -22,7 +22,7 @@
 }
 
 .radiusLine {
-  margin: 2em auto;
+  /* margin: 2em auto; */
   padding: 1em;
   width: 90%; /* ボックス幅 */
   background-color: #eeffff; /* ボックス背景色 */
@@ -228,4 +228,18 @@ a.btn {
   letter-spacing: 0.1em;
   color: #ffffff;
   border-radius: 0.5rem;
+}
+
+.rooms {
+  margin: 10px;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.box {
+  padding-left: 40px;
+  /* ボックスのスタイルを設定 */
+  /* 例: width, height, margin, padding, etc. */
+  width: calc(20% - 10px); /* 画面幅に合わせて調整してください */
+  margin-top: 30px; /* ボックス間のマージンを設定 */
 }
