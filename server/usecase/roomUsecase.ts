@@ -17,6 +17,14 @@ const initBoard = () => [
   [0, 0, 0, 0, 0, 0, 0, 0],
   [0, 0, 0, 0, 0, 0, 0, 0],
 ];
+function checkArray(arr: number[][]) {
+  const flattenedArray = arr.flat();
+  const hasZero = flattenedArray.includes(0);
+  const hasThree = flattenedArray.includes(3);
+
+  return !(hasZero || hasThree);
+}
+
 export const roomUsecase = {
   create: async (label: RoomModel['name']) => {
     const newRoom: RoomModel = {
@@ -51,11 +59,14 @@ export const roomUsecase = {
 
     const newBoard: number[][] = JSON.parse(JSON.stringify(rooms.board));
     const userColor = await userColorUsecase.getUserColor(userId, RoomId, userDisplayName);
-    if (userColor !== rooms.turn || newBoard[y][x] !== 3) {
+    if (userColor !== rooms.turn || newBoard[y][x] !== 3 || rooms.status === 'waiting') {
       const newRoom: RoomModel = { ...rooms, board: newBoard };
       return newRoom;
     }
     newBoard[y][x] = userColor;
+    if (checkArray(newBoard)) {
+      rooms.status === 'ended';
+    }
     const cong = changeBoardUsecase.getChangeBoard(x, y, userId, newBoard, RoomId);
     const setturn: RoomModel = { ...rooms, turn: 3 - rooms.turn };
     await roomsRepository.save(setturn);

@@ -1,3 +1,4 @@
+/* eslint-disable no-constant-condition */
 /* eslint-disable complexity */
 import assert from 'assert';
 import { useAtom } from 'jotai';
@@ -23,7 +24,7 @@ const OthelloPage = () => {
   const [whitePlayer, setwhitePlayer] = useState('-');
   const [blackPlayerName, setblackPlayerName] = useState('-');
   const [whitePlayerName, setwhitePlayerName] = useState('-');
-
+  const [status, setStatus] = useState('waiting');
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const fetchBoard = async () => {
     const roomlist = await apiClient.rooms.$get().catch(returnNull);
@@ -36,6 +37,7 @@ const OthelloPage = () => {
     setwhitePlayer(String(rooms.white));
     setblackPlayerName(String(rooms.blackname));
     setwhitePlayerName(String(rooms.whitename));
+    setStatus(rooms.status);
     await apiClient.rooms.board.$post({ body: { x: 10, y: 10, RoomId } });
     const blackCount = rooms.board.flat().filter((color) => color === 1).length;
     const whiteCount = rooms.board.flat().filter((color) => color === 2).length;
@@ -49,7 +51,7 @@ const OthelloPage = () => {
     await fetchBoard();
   };
   useEffect(() => {
-    const cancelid = setInterval(fetchBoard, 500);
+    const cancelid = setInterval(fetchBoard, 50);
     console.log('dsfsdsd');
     return () => clearInterval(cancelid);
   }, [fetchBoard]);
@@ -74,7 +76,12 @@ const OthelloPage = () => {
               : '観戦者'}
           </a>
         </div>
-        <a className={styles.turn}>現在 {turn === 1 ? '黒' : '白'} のターン</a>
+        <a className={styles.turn} style={{ opacity: status === 'waiting' || 'ended' ? 0 : 1 }}>
+          現在 {turn === 1 ? '黒' : '白'} のターン
+        </a>
+        <a className={styles.turn}>{status === 'waiting' ? 'プレイヤー待機中' : ''} </a>
+        <a className={styles.turn}>{status === 'ended' ? 'ゲーム終了' : ''} </a>
+
         <div className={styles.black}>
           <a className={styles.blackname}>黒{blackCount || 2}個</a>
         </div>

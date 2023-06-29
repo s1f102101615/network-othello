@@ -32,6 +32,7 @@ export const userColorUsecase = {
       console.log('5');
       rooms.white = userID;
       rooms.whitename = userDisplayName;
+      rooms.status = 'playing';
       await roomsRepository.save(rooms);
       return 2;
     } else {
