@@ -154,7 +154,7 @@
   z-index: 1;
   position: absolute;
   top: 16%;
-  left: 1400px;
+  left: 400px;
 }
 
 .blackname {
@@ -174,7 +174,7 @@
   border: 2px solid black;
   z-index: 1;
   top: 16%;
-  left: 400px;
+  left: 1400px;
   position: absolute;
 }
 

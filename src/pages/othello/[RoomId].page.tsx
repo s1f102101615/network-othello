@@ -45,6 +45,12 @@ const OthelloPage = () => {
     setBlackCount(blackCount);
     setWhiteCount(whiteCount);
   };
+  const BlackIn = async () => {
+    console.log('黒');
+  };
+  const WhiteIn = async () => {
+    console.log('白');
+  };
 
   const clickCell = async (x: number, y: number) => {
     await apiClient.rooms.board.$post({ body: { x, y, RoomId } });
@@ -62,6 +68,8 @@ const OthelloPage = () => {
   return (
     <>
       <BasicHeader user={user} />
+      <a onClick={BlackIn}>黒に入る</a>
+      <a onClick={WhiteIn}>白に入る</a>
       <div className={styles.container}>
         <a>
           黒の名前:{blackPlayerName} 白の名前:{whitePlayerName}
