@@ -1,3 +1,5 @@
+/* eslint-disable max-depth */
+/* eslint-disable complexity */
 import type { UserId } from '$/commonTypesWithClient/branded';
 import type { RoomModel } from '$/commonTypesWithClient/models';
 import { roomsRepository } from '$/repository/roomsRepository';
@@ -56,6 +58,38 @@ export const roomUsecase = {
     assert(latest, 'クリック出来てるんだからRoomが無いわけがない');
     const rooms = latest.find((room) => room.id === RoomId);
     assert(rooms, 'クリック出来てるんだからIDが合わないわけない');
+    if (x === 11) {
+      if (rooms.black === userId) {
+        rooms.black = undefined;
+        rooms.blackname = '';
+      } else if (rooms.black === 'undefined') {
+        rooms.black = userId;
+        rooms.blackname = userDisplayName;
+        if (rooms.white === userId) {
+          rooms.white = undefined;
+          rooms.whitename = '';
+        }
+      }
+      await roomsRepository.save(rooms);
+    }
+    if (x === 12) {
+      if (rooms.white === userId) {
+        rooms.white = undefined;
+        rooms.whitename = '';
+      } else if (rooms.white === 'undefined') {
+        rooms.white = userId;
+        rooms.whitename = userDisplayName;
+        if (rooms.black === userId) {
+          rooms.black = undefined;
+          rooms.blackname = '';
+        }
+      }
+      await roomsRepository.save(rooms);
+    }
+    if (!(rooms.white === 'undefined') && !(rooms.black === 'undefine')) {
+      const play: RoomModel = { ...rooms, status: 'playing' };
+      await roomsRepository.save(play);
+    }
 
     const newBoard: number[][] = JSON.parse(JSON.stringify(rooms.board));
     const userColor = await userColorUsecase.getUserColor(userId, RoomId, userDisplayName);

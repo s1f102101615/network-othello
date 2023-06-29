@@ -24,15 +24,15 @@ export const userColorUsecase = {
       return 3;
     } else if (rooms.black === 'undefined') {
       console.log('4');
-      rooms.black = userID;
-      rooms.blackname = userDisplayName;
-      await roomsRepository.save(rooms);
+      // rooms.black = userID;
+      // rooms.blackname = userDisplayName;
+      // await roomsRepository.save(rooms);
       return 1;
     } else if (rooms.white === 'undefined') {
       console.log('5');
-      rooms.white = userID;
-      rooms.whitename = userDisplayName;
-      rooms.status = 'playing';
+      // rooms.white = userID;
+      // rooms.whitename = userDisplayName;
+      // rooms.status = 'playing';
       await roomsRepository.save(rooms);
       return 2;
     } else {

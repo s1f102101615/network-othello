@@ -46,10 +46,10 @@ const OthelloPage = () => {
     setWhiteCount(whiteCount);
   };
   const BlackIn = async () => {
-    console.log('黒');
+    await apiClient.rooms.board.$post({ body: { x: 11, y: 10, RoomId } });
   };
   const WhiteIn = async () => {
-    console.log('白');
+    await apiClient.rooms.board.$post({ body: { x: 12, y: 10, RoomId } });
   };
 
   const clickCell = async (x: number, y: number) => {
