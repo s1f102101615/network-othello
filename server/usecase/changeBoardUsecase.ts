@@ -21,20 +21,15 @@ export const changeBoardUsecase = {
     RoomId: string | string[] | undefined
   ): Promise<number[][]> => {
     const newBoard = board;
-
+    const usercolor = await userColorUsecase.getUserColor(color, RoomId);
     for (const d of directions) {
       if (
         newBoard[y + d[0]] !== undefined &&
         newBoard[y + d[0]][x + d[1]] !== undefined &&
         newBoard[y + d[0]][x + d[1]] !== 0 &&
-        newBoard[y + d[0]][x + d[1]] !==
-          (await userColorUsecase.getUserColor(color, RoomId, undefined))
+        newBoard[y + d[0]][x + d[1]] !== usercolor
       ) {
-        if (
-          newBoard[y + d[0]][x + d[1]] !==
-            (await userColorUsecase.getUserColor(color, RoomId, undefined)) &&
-          newBoard[y + d[0]][x + d[1]] !== 3
-        ) {
+        if (newBoard[y + d[0]][x + d[1]] !== usercolor && newBoard[y + d[0]][x + d[1]] !== 3) {
           let rturn = 2;
           for (let p = 2; p < 8; p++) {
             if (
@@ -45,15 +40,11 @@ export const changeBoardUsecase = {
             ) {
               break;
             }
-            if (
-              newBoard[y + d[0] * p][x + d[1] * p] ===
-              (await userColorUsecase.getUserColor(color, RoomId, undefined))
-            ) {
-              newBoard[y][x] = await userColorUsecase.getUserColor(color, RoomId, undefined);
+            if (newBoard[y + d[0] * p][x + d[1] * p] === usercolor) {
+              newBoard[y][x] = usercolor;
 
               for (let now = 1; now < rturn; now++) {
-                newBoard[y + d[0] * (p - now)][x + d[1] * (p - now)] =
-                  await userColorUsecase.getUserColor(color, RoomId, undefined);
+                newBoard[y + d[0] * (p - now)][x + d[1] * (p - now)] = usercolor;
               }
             }
             rturn++;

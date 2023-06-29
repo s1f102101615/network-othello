@@ -54,11 +54,9 @@ const OthelloPage = () => {
 
   const clickCell = async (x: number, y: number) => {
     await apiClient.rooms.board.$post({ body: { x, y, RoomId } });
-    await fetchBoard();
   };
   useEffect(() => {
     const cancelid = setInterval(fetchBoard, 50);
-    console.log('dsfsdsd');
     return () => clearInterval(cancelid);
   }, [fetchBoard]);
 

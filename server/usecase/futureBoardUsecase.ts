@@ -20,6 +20,7 @@ export const futureBoardUsecase = {
     RoomId: string | string[] | undefined
   ): Promise<number[][]> => {
     const newfutureBoard = board;
+    const usercolor = await userColorUsecase.getUserColor(color, RoomId);
 
     for (let tate = 0; tate < 8; tate++) {
       for (let yoko = 0; yoko < 8; yoko++) {
@@ -31,13 +32,9 @@ export const futureBoardUsecase = {
             if (
               newfutureBoard[tate + d[0]] !== undefined &&
               newfutureBoard[tate + d[0]][yoko + d[1]] !== undefined &&
-              newfutureBoard[tate + d[0]][yoko + d[1]] ===
-                (await userColorUsecase.getUserColor(color, RoomId, undefined))
+              newfutureBoard[tate + d[0]][yoko + d[1]] === usercolor
             ) {
-              if (
-                newfutureBoard[tate + d[0]][yoko + d[1]] !==
-                3 - (await userColorUsecase.getUserColor(color, RoomId, undefined))
-              ) {
+              if (newfutureBoard[tate + d[0]][yoko + d[1]] !== 3 - usercolor) {
                 for (let p = 2; p < 8; p++) {
                   if (
                     newfutureBoard[tate + d[0] * p] === undefined ||
@@ -47,10 +44,7 @@ export const futureBoardUsecase = {
                   ) {
                     break;
                   }
-                  if (
-                    newfutureBoard[tate + d[0] * p][yoko + d[1] * p] ===
-                    3 - (await userColorUsecase.getUserColor(color, RoomId, undefined))
-                  ) {
+                  if (newfutureBoard[tate + d[0] * p][yoko + d[1] * p] === 3 - usercolor) {
                     newfutureBoard[tate][yoko] = 3;
                   }
                 }

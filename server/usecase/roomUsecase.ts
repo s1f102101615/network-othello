@@ -94,7 +94,7 @@ export const roomUsecase = {
     }
 
     const newBoard: number[][] = JSON.parse(JSON.stringify(rooms.board));
-    const userColor = await userColorUsecase.getUserColor(userId, RoomId, userDisplayName);
+    const userColor = await userColorUsecase.getUserColor(userId, RoomId);
     if (userColor !== rooms.turn || newBoard[y][x] !== 3 || rooms.status === 'waiting') {
       const newRoom: RoomModel = { ...rooms, board: newBoard };
       return newRoom;
@@ -104,8 +104,8 @@ export const roomUsecase = {
       rooms.status === 'ended';
     }
     const cong = changeBoardUsecase.getChangeBoard(x, y, userId, newBoard, RoomId);
-    const setturn: RoomModel = { ...rooms, turn: 3 - rooms.turn };
-    await roomsRepository.save(setturn);
+    // const setturn: RoomModel = { ...rooms, turn: 3 - rooms.turn };
+    // await roomsRepository.save(setturn);
     const tong = futureBoardUsecase.getfutureChangeBoard(userId, await cong, RoomId);
     const newRoom: RoomModel = { ...rooms, board: await tong, turn: 3 - rooms.turn };
 

@@ -29,6 +29,7 @@ const Home = () => {
   const quickMatch = async () => {
     const roomlist = await apiClient.rooms.$get().catch(returnNull);
     assert(roomlist, 'クリック出来てるんだからRoomが無いわけがない');
+    roomlist.reverse();
     const rooms = roomlist.find(
       (room) =>
         (room.black === 'undefined' && !(room.white === 'undefined')) ||

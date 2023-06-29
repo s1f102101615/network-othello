@@ -6,8 +6,8 @@ import assert from 'assert';
 export const userColorUsecase = {
   getUserColor: async (
     userID: UserId,
-    RoomId: string | string[] | undefined,
-    userDisplayName: string | undefined
+    RoomId: string | string[] | undefined
+    // userDisplayName: string | undefined
   ): Promise<number> => {
     const latest = await roomsRepository.findLatest();
     assert(latest, 'クリック出来てるんだからRoomが無いわけがない');
