@@ -178,11 +178,12 @@
 
 a.btnflat {
   overflow: hidden;
-  padding: 1.5rem 6rem;
+  padding: 35.8435px 6rem;
   color: #fff;
   border-radius: 0;
   background: #000;
   overflow: hidden;
+  margin-left: 20px;
 }
 
 a.btnflat span {

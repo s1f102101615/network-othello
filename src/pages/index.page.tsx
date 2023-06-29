@@ -1,6 +1,7 @@
 /* eslint-disable complexity */
 /* eslint-disable max-depth */
 import type { RoomModel, TaskModel } from '$/commonTypesWithClient/models';
+import assert from 'assert';
 import { useAtom } from 'jotai';
 import Link from 'next/link';
 import type { ChangeEvent, FormEvent } from 'react';
@@ -24,6 +25,18 @@ const Home = () => {
   };
   const handleBtn2Click = () => {
     setHidden(1);
+  };
+  const quickMatch = async () => {
+    const roomlist = await apiClient.rooms.$get().catch(returnNull);
+    assert(roomlist, 'クリック出来てるんだからRoomが無いわけがない');
+    const rooms = roomlist.find(
+      (room) =>
+        (room.black === 'undefined' && !(room.white === 'undefined')) ||
+        (!(room.black === 'undefined') && room.white === 'undefined')
+    );
+    assert(rooms, 'クリック出来てるんだからIDが合わないわけない');
+    const id = rooms.id;
+    window.location.href = `/othello/${id}`;
   };
   const inputLabel = (e: ChangeEvent<HTMLInputElement>) => {
     setLabel(e.target.value);
@@ -76,6 +89,14 @@ const Home = () => {
       <BasicHeader user={user} />
       <div className={styles.title}>FrouriOthello</div>
       <div className={styles.btncontainer}>
+        <a
+          className={`${styles.btnflat} ${styles.btn}`}
+          onClick={quickMatch}
+          style={{ paddingLeft: '35.8435px', paddingRight: '35.8435px' }}
+        >
+          <span>クイックマッチ</span>
+        </a>
+
         <a className={`${styles.btnflat} ${styles.btn}`} onClick={handleBtn3Click}>
           <span>ルーム作成</span>
         </a>
