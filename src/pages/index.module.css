@@ -242,5 +242,9 @@ a.btn {
   /* ボックスのスタイルを設定 */
   /* 例: width, height, margin, padding, etc. */
   width: calc(20% - 10px); /* 画面幅に合わせて調整してください */
-  margin-top: 30px; /* ボックス間のマージンを設定 */
+  margin-bottom: 30px; /* ボックス間のマージンを設定 */
+}
+
+.state {
+  font-size: 30px;
 }

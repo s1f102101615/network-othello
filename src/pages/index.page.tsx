@@ -1,6 +1,6 @@
 /* eslint-disable complexity */
 /* eslint-disable max-depth */
-import type { RoomModel, TaskModel } from '$/commonTypesWithClient/models';
+import type { RoomModel } from '$/commonTypesWithClient/models';
 import assert from 'assert';
 import { useAtom } from 'jotai';
 import Link from 'next/link';
@@ -15,7 +15,6 @@ import styles from './index.module.css';
 
 const Home = () => {
   const [user] = useAtom(userAtom);
-  const [tasks, setTasks] = useState<TaskModel[] | undefined>(undefined);
   const [label, setLabel] = useState('');
   const [rooms, setRooms] = useState<RoomModel[] | undefined>(undefined);
   const [hidden, setHidden] = useState(1);
@@ -42,15 +41,9 @@ const Home = () => {
   const inputLabel = (e: ChangeEvent<HTMLInputElement>) => {
     setLabel(e.target.value);
   };
-  const fetchTasks = async () => {
-    const tasks = await apiClient.tasks.$get().catch(returnNull);
-    console.log(tasks);
 
-    if (tasks !== null) setTasks(tasks);
-  };
   const fetchRooms = async () => {
     const newRoom = await apiClient.rooms.$get().catch(returnNull);
-    console.log(newRoom);
     if (newRoom !== null) {
       setRooms(newRoom);
     }
@@ -78,11 +71,24 @@ const Home = () => {
   };
 
   useEffect(() => {
-    fetchTasks();
-    fetchRooms();
+    const cancelid = setInterval(fetchRooms, 50);
+    return () => clearInterval(cancelid);
   }, []);
+  // waitingRooms: 待機中の部屋の配列
+  // playingRooms: プレイ中の部屋の配列
+  const waitingRooms: RoomModel[] = [];
+  const playingRooms: RoomModel[] = [];
 
-  if (!tasks || !user) return <Loading visible />;
+  // roomsを待機中の部屋とプレイ中の部屋に分ける
+  rooms?.forEach((room) => {
+    if (room.status === 'waiting') {
+      waitingRooms.push(room);
+    } else {
+      playingRooms.push(room);
+    }
+  });
+
+  if (!user) return <Loading visible />;
   //残りはcss!
 
   return (
@@ -124,10 +130,32 @@ const Home = () => {
           />
         </form>
       </section>
-
+      <div className={styles.state}>参加待ち</div>
       <div className={styles.rooms}>
-        {rooms?.length ? (
-          [...rooms].reverse().map((room) => (
+        {waitingRooms?.length ? (
+          [...waitingRooms].reverse().map((room) => (
+            <Link href={`/othello/${room.id}`} key={room.id} className={styles.box}>
+              <div key={room.id} className={styles.radiusLine}>
+                <span className={styles.spans}>{room.name}</span>
+                <br />
+                参加人数{' '}
+                {room.black !== 'undefined' && room.white !== 'undefined'
+                  ? 2
+                  : room.black !== 'undefined' || room.white !== 'undefined'
+                  ? 1
+                  : 0}
+                人 観戦者数{room.watcher.length - 1}人
+              </div>
+            </Link>
+          ))
+        ) : (
+          <li>No rooms available</li>
+        )}
+      </div>
+      <div className={styles.state}>対戦中</div>
+      <div className={styles.rooms}>
+        {playingRooms?.length ? (
+          [...playingRooms].reverse().map((room) => (
             <Link href={`/othello/${room.id}`} key={room.id} className={styles.box}>
               <div key={room.id} className={styles.radiusLine}>
                 <span className={styles.spans}>{room.name}</span>
