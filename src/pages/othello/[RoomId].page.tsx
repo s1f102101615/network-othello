@@ -68,8 +68,6 @@ const OthelloPage = () => {
   return (
     <>
       <BasicHeader user={user} />
-      <a onClick={BlackIn}>黒に入る</a>
-      <a onClick={WhiteIn}>白に入る</a>
       <div className={styles.container}>
         <a>
           黒の名前:{blackPlayerName} 白の名前:{whitePlayerName}
@@ -84,7 +82,7 @@ const OthelloPage = () => {
               : '観戦者'}
           </a>
         </div>
-        <a className={styles.turn} style={{ opacity: status === 'waiting' || 'ended' ? 0 : 1 }}>
+        <a className={styles.turn} style={{ opacity: status === 'playing' ? 1 : 0 }}>
           現在 {turn === 1 ? '黒' : '白'} のターン
         </a>
         <a className={styles.turn}>{status === 'waiting' ? 'プレイヤー待機中' : ''} </a>
@@ -93,6 +91,19 @@ const OthelloPage = () => {
         <div className={styles.black}>
           <a className={styles.blackname}>黒{blackCount || 2}個</a>
         </div>
+        {status !== 'waiting' ? null : (
+          <div onClick={BlackIn} className={styles.customblack}>
+            黒に入る
+          </div>
+        )}
+        {status !== 'waiting' ? null : (
+          <div onClick={WhiteIn} className={styles.customwhite}>
+            白に入る
+          </div>
+        )}
+        {/* <div onClick={WhiteIn} className={styles.customwhite}>
+          白に入る
+        </div> */}
         <div className={styles.white}>
           <a className={styles.whitename}>白{whiteCount || 2}個</a>
         </div>

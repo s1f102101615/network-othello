@@ -218,3 +218,40 @@
   margin-top: 720px;
   font-size: 170%;
 }
+
+.customblack {
+  width: 130px;
+  height: 40px;
+  text-align: center;
+  align-items: center;
+  border: 2px solid white;
+  font-family: 'Lato', sans-serif;
+  color: white;
+  font-weight: 500;
+  font-size: 14px;
+  background: black;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: inline-block;
+  top: 40%;
+  left: 394px;
+  position: absolute;
+}
+.customwhite {
+  width: 130px;
+  height: 40px;
+  text-align: center;
+  align-items: center;
+  border: 2px solid black;
+  font-family: 'Lato', sans-serif;
+  color: black;
+  font-weight: 500;
+  font-size: 14px;
+  background: white;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: inline-block;
+  top: 40%;
+  left: 1400px;
+  position: absolute;
+}

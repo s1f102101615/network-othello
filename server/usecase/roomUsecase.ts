@@ -59,36 +59,38 @@ export const roomUsecase = {
     const rooms = latest.find((room) => room.id === RoomId);
     assert(rooms, 'クリック出来てるんだからIDが合わないわけない');
     if (x === 11) {
+      if (rooms.white !== userId && !(rooms.white === 'undefined')) {
+        rooms.status = 'playing';
+      }
       if (rooms.black === userId) {
         rooms.black = undefined;
         rooms.blackname = '';
       } else if (rooms.black === 'undefined') {
-        rooms.black = userId;
-        rooms.blackname = userDisplayName;
         if (rooms.white === userId) {
           rooms.white = undefined;
           rooms.whitename = '';
         }
+        rooms.black = userId;
+        rooms.blackname = userDisplayName;
       }
       await roomsRepository.save(rooms);
     }
     if (x === 12) {
+      if (rooms.black !== userId && !(rooms.black === 'undefined')) {
+        rooms.status = 'playing';
+      }
       if (rooms.white === userId) {
         rooms.white = undefined;
         rooms.whitename = '';
       } else if (rooms.white === 'undefined') {
-        rooms.white = userId;
-        rooms.whitename = userDisplayName;
         if (rooms.black === userId) {
           rooms.black = undefined;
           rooms.blackname = '';
         }
+        rooms.white = userId;
+        rooms.whitename = userDisplayName;
       }
       await roomsRepository.save(rooms);
-    }
-    if (!(rooms.white === 'undefined') && !(rooms.black === 'undefine')) {
-      const play: RoomModel = { ...rooms, status: 'playing' };
-      await roomsRepository.save(play);
     }
 
     const newBoard: number[][] = JSON.parse(JSON.stringify(rooms.board));
