@@ -160,8 +160,12 @@
 .blackname {
   color: rgb(255 255 255);
   z-index: 1;
-  font-size: 200%;
+  font-size: 300%;
   font-weight: bold;
+  display: flex;
+  margin-top: 11px;
+  margin-left: 40%;
+  font-family: cursive;
 }
 
 .white {
@@ -180,11 +184,13 @@
 
 .whitename {
   color: rgb(0 0 0);
-  z-index: 3;
-  top: 160px;
-  left: 400px;
-  font-size: 200%;
+  z-index: 2;
+  font-size: 300%;
   font-weight: bold;
+  display: flex;
+  margin-top: 11px;
+  margin-right: 48%;
+  font-family: cursive;
 }
 
 .pass {
@@ -195,9 +201,9 @@
 
 .turn {
   font-size: 300%;
-  position: absolute;
-  z-index: 1;
-  top: 100px;
+  display: flex;
+  justify-content: center;
+  margin-top: 13px;
   font-weight: bold;
 }
 
@@ -252,4 +258,53 @@
   top: 40%;
   left: 1400px;
   position: absolute;
+}
+
+.playerTag {
+  display: flex;
+  position: absolute;
+  z-index: 1000;
+  height: 90px;
+  width: 100%;
+  top: 60px;
+}
+
+.blackTag {
+  background-color: #000;
+  height: 100%;
+  width: 37.5%;
+  display: flex;
+}
+.midTag {
+  background-color: green;
+  height: 100%;
+  width: 25%;
+}
+
+.whiteTag {
+  background-color: #ffffff;
+  height: 100%;
+  width: 37.5%;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.blackplayer {
+  font-size: 300%;
+  color: #ffffff;
+  font-family: cursive;
+  display: flex;
+  margin-top: 11px;
+  margin-left: 5%;
+}
+
+.whiteplayer {
+  font-size: 300%;
+  color: #000000;
+  font-family: cursive;
+  text-align: center;
+  justify-content: flex-start;
+  display: flex;
+  margin-top: 11px;
+  margin-right: 5%;
 }

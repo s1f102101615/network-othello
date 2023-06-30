@@ -66,10 +66,28 @@ const OthelloPage = () => {
   return (
     <>
       <BasicHeader user={user} />
+
       <div className={styles.container}>
-        <a>
+        <div className={styles.playerTag}>
+          <div className={styles.blackTag}>
+            <a className={styles.blackplayer}> {blackPlayerName} </a>
+            <a className={styles.blackname}>{blackCount || 2}</a>
+          </div>
+          <div className={styles.midTag}>
+            {status === 'playing' ? (
+              <a className={styles.turn}>現在 {turn === 1 ? '黒' : '白'} のターン</a>
+            ) : null}
+            {status === 'waiting' ? <a className={styles.turn}>プレイヤー待機中</a> : null}
+            {status === 'ended' ? <a className={styles.turn}>ゲーム終了</a> : null}
+          </div>
+          <div className={styles.whiteTag}>
+            <a className={styles.whitename}>{whiteCount || 2}</a>
+            <a className={styles.whiteplayer}> {whitePlayerName} </a>
+          </div>
+        </div>
+        {/* <a>
           黒の名前:{blackPlayerName} 白の名前:{whitePlayerName}
-        </a>
+        </a> */}
         <div className={styles.youColor}>
           <a>
             あなた:
@@ -80,15 +98,15 @@ const OthelloPage = () => {
               : '観戦者'}
           </a>
         </div>
-        <a className={styles.turn} style={{ opacity: status === 'playing' ? 1 : 0 }}>
+        {/* <a className={styles.turn} style={{ opacity: status === 'playing' ? 1 : 0 }}>
           現在 {turn === 1 ? '黒' : '白'} のターン
         </a>
         <a className={styles.turn}>{status === 'waiting' ? 'プレイヤー待機中' : ''} </a>
-        <a className={styles.turn}>{status === 'ended' ? 'ゲーム終了' : ''} </a>
+        <a className={styles.turn}>{status === 'ended' ? 'ゲーム終了' : ''} </a> */}
 
-        <div className={styles.black}>
+        {/* <div className={styles.black}>
           <a className={styles.blackname}>黒{blackCount || 2}個</a>
-        </div>
+        </div> */}
         {status !== 'waiting' ? null : (
           <div onClick={BlackIn} className={styles.customblack}>
             黒に入る
@@ -102,9 +120,9 @@ const OthelloPage = () => {
         {/* <div onClick={WhiteIn} className={styles.customwhite}>
           白に入る
         </div> */}
-        <div className={styles.white}>
+        {/* <div className={styles.white}>
           <a className={styles.whitename}>白{whiteCount || 2}個</a>
-        </div>
+        </div> */}
         {/* <a href="http://localhost:3000/" className={styles.newgame}>
           リスタート
         </a> */}
