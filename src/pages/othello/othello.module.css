@@ -222,7 +222,7 @@
 .customblack {
   width: 130px;
   height: 40px;
-  text-align: center;
+  justify-content: center;
   align-items: center;
   border: 2px solid white;
   font-family: 'Lato', sans-serif;
@@ -231,8 +231,7 @@
   font-size: 14px;
   background: black;
   cursor: pointer;
-  transition: all 0.3s ease;
-  display: inline-block;
+  display: flex;
   top: 40%;
   left: 394px;
   position: absolute;
@@ -240,7 +239,7 @@
 .customwhite {
   width: 130px;
   height: 40px;
-  text-align: center;
+  justify-content: center;
   align-items: center;
   border: 2px solid black;
   font-family: 'Lato', sans-serif;
@@ -249,8 +248,7 @@
   font-size: 14px;
   background: white;
   cursor: pointer;
-  transition: all 0.3s ease;
-  display: inline-block;
+  display: flex;
   top: 40%;
   left: 1400px;
   position: absolute;
