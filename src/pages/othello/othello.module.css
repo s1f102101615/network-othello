@@ -162,9 +162,9 @@
   z-index: 1;
   font-size: 300%;
   font-weight: bold;
-  display: flex;
-  margin-top: 11px;
-  margin-left: 40%;
+  position: absolute;
+  right: 5%;
+  top: 13%;
   font-family: cursive;
 }
 
@@ -188,8 +188,9 @@
   font-size: 300%;
   font-weight: bold;
   display: flex;
+  position: absolute;
   margin-top: 11px;
-  margin-right: 48%;
+  left: 5%;
   font-family: cursive;
 }
 
@@ -267,6 +268,7 @@
   height: 90px;
   width: 100%;
   top: 60px;
+  border-bottom: 2px solid green;
 }
 
 .blackTag {
@@ -274,6 +276,7 @@
   height: 100%;
   width: 37.5%;
   display: flex;
+  position: relative;
 }
 .midTag {
   background-color: green;
@@ -286,7 +289,7 @@
   height: 100%;
   width: 37.5%;
   display: flex;
-  justify-content: flex-end;
+  position: relative;
 }
 
 .blackplayer {
@@ -294,8 +297,9 @@
   color: #ffffff;
   font-family: cursive;
   display: flex;
+  position: absolute;
   margin-top: 11px;
-  margin-left: 5%;
+  left: 5%;
 }
 
 .whiteplayer {
@@ -303,8 +307,43 @@
   color: #000000;
   font-family: cursive;
   text-align: center;
-  justify-content: flex-start;
+  position: absolute;
+  right: 5%;
   display: flex;
   margin-top: 11px;
-  margin-right: 5%;
+}
+
+.you {
+  position: relative;
+}
+.blackyou {
+  background-color: #000;
+  height: 60px;
+  width: 15%;
+  margin-top: 90px;
+  position: absolute;
+  color: white;
+  font-size: 250%;
+  font-family: cursive;
+  text-align: center;
+  align-items: center;
+  border-radius: 0 0 50px 0;
+  border-bottom: 2px solid green;
+  border-right: 2px solid green;
+}
+
+.whiteyou {
+  background-color: #ffffff;
+  height: 60px;
+  width: 15%;
+  margin-top: 90px;
+  position: absolute;
+  right: 0%;
+  font-size: 250%;
+  font-family: cursive;
+  text-align: center;
+  align-items: center;
+  border-radius: 0 0 0 50px;
+  border-bottom: 2px solid green;
+  border-left: 2px solid green;
 }

@@ -66,25 +66,29 @@ const OthelloPage = () => {
   return (
     <>
       <BasicHeader user={user} />
+      <div className={styles.playerTag}>
+        <div className={styles.blackTag}>
+          <a className={styles.blackplayer}> {blackPlayerName} </a>
+          <a className={styles.blackname}>{blackCount || 2}</a>
+        </div>
+        <div className={styles.midTag}>
+          {status === 'playing' ? (
+            <a className={styles.turn}>現在 {turn === 1 ? '黒' : '白'} のターン</a>
+          ) : null}
+          {status === 'waiting' ? <a className={styles.turn}>プレイヤー待機中</a> : null}
+          {status === 'ended' ? <a className={styles.turn}>ゲーム終了</a> : null}
+        </div>
+        <div className={styles.whiteTag}>
+          <a className={styles.whitename}>{whiteCount || 2}</a>
+          <a className={styles.whiteplayer}> {whitePlayerName} </a>
+        </div>
+      </div>
+      <div className={styles.you}>
+        {blackPlayer === user.id ? <div className={styles.blackyou}> you </div> : null}
+        {whitePlayer === user.id ? <div className={styles.whiteyou}> you </div> : null}
+      </div>
 
       <div className={styles.container}>
-        <div className={styles.playerTag}>
-          <div className={styles.blackTag}>
-            <a className={styles.blackplayer}> {blackPlayerName} </a>
-            <a className={styles.blackname}>{blackCount || 2}</a>
-          </div>
-          <div className={styles.midTag}>
-            {status === 'playing' ? (
-              <a className={styles.turn}>現在 {turn === 1 ? '黒' : '白'} のターン</a>
-            ) : null}
-            {status === 'waiting' ? <a className={styles.turn}>プレイヤー待機中</a> : null}
-            {status === 'ended' ? <a className={styles.turn}>ゲーム終了</a> : null}
-          </div>
-          <div className={styles.whiteTag}>
-            <a className={styles.whitename}>{whiteCount || 2}</a>
-            <a className={styles.whiteplayer}> {whitePlayerName} </a>
-          </div>
-        </div>
         {/* <a>
           黒の名前:{blackPlayerName} 白の名前:{whitePlayerName}
         </a> */}
