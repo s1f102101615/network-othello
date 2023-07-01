@@ -30,20 +30,23 @@ const OthelloPage = () => {
     const roomlist = await apiClient.rooms.$get().catch(returnNull);
     assert(roomlist, 'クリック出来てるんだからRoomが無いわけがない');
     const rooms = roomlist.find((room) => room.id === RoomId);
-    assert(rooms, 'クリック出来てるんだからIDが合わないわけない');
+    if (!rooms) {
+      fetchBoard();
+      return;
+    }
     setTurn(rooms.turn);
     setBoard(rooms.board);
+    const blackCount = rooms.board.flat().filter((color) => color === 1).length;
+    const whiteCount = rooms.board.flat().filter((color) => color === 2).length;
+
+    setBlackCount(blackCount);
+    setWhiteCount(whiteCount);
     setblackPlayer(String(rooms.black));
     setwhitePlayer(String(rooms.white));
     setblackPlayerName(String(rooms.blackname));
     setwhitePlayerName(String(rooms.whitename));
     setStatus(rooms.status);
     await apiClient.rooms.board.$post({ body: { x: 10, y: 10, RoomId } });
-    const blackCount = rooms.board.flat().filter((color) => color === 1).length;
-    const whiteCount = rooms.board.flat().filter((color) => color === 2).length;
-
-    setBlackCount(blackCount);
-    setWhiteCount(whiteCount);
   };
   const BlackIn = async () => {
     await apiClient.rooms.board.$post({ body: { x: 11, y: 10, RoomId } });
