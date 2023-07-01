@@ -56,10 +56,18 @@ const OthelloPage = () => {
   };
 
   const clickCell = async (x: number, y: number) => {
+    if (
+      !user?.id ||
+      (blackPlayer === user?.id && turn === 2) ||
+      (whitePlayer === user?.id && turn === 1)
+    ) {
+      return; // プレイヤーのターンでない場合は処理を終了する
+    }
     await apiClient.rooms.board.$post({ body: { x, y, RoomId } });
+    fetchBoard();
   };
   useEffect(() => {
-    const cancelid = setInterval(fetchBoard, 50);
+    const cancelid = setInterval(fetchBoard, 100);
     return () => clearInterval(cancelid);
   }, [fetchBoard]);
 
