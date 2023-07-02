@@ -106,11 +106,30 @@ export const roomUsecase = {
     const cong = changeBoardUsecase.getChangeBoard(x, y, userId, newBoard, RoomId);
     // const setturn: RoomModel = { ...rooms, turn: 3 - rooms.turn };
     // await roomsRepository.save(setturn);
-    const tong = futureBoardUsecase.getfutureChangeBoard(userId, await cong, RoomId);
-    const newRoom: RoomModel = { ...rooms, board: await tong, turn: 3 - rooms.turn };
-
-    await roomsRepository.save(newRoom);
-
+    futureBoardUsecase
+      .getfutureChangeBoard(userId, await cong, RoomId)
+      .then((result) => {
+        if (result[0] === 1) {
+          const tong = result[1];
+          const newRoom: RoomModel = { ...rooms, board: tong, turn: 3 - rooms.turn };
+          roomsRepository.save(newRoom);
+          return newRoom;
+        } else if (result[0] === 0) {
+          console.log('パスです。');
+          const tong = result[1];
+          const newRoom: RoomModel = { ...rooms, board: tong };
+          roomsRepository.save(newRoom);
+          return newRoom;
+        } else if (result[0] === 3) {
+          const tong = result[1];
+          const newRoom: RoomModel = { ...rooms, board: tong, status: 'ended' };
+          roomsRepository.save(newRoom);
+        }
+      })
+      .catch(() => {
+        console.log('エラー');
+      });
+    const newRoom: RoomModel = { ...rooms };
     return newRoom;
   },
 };
