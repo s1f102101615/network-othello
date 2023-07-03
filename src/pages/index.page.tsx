@@ -1,3 +1,4 @@
+/* eslint-disable max-lines */
 /* eslint-disable complexity */
 /* eslint-disable max-depth */
 import type { RoomModel } from '$/commonTypesWithClient/models';
@@ -29,13 +30,22 @@ const Home = () => {
     const roomlist = await apiClient.rooms.$get().catch(returnNull);
     assert(roomlist, 'クリック出来てるんだからRoomが無いわけがない');
     roomlist.reverse();
-    const rooms = roomlist.find(
+    let rooms = roomlist.find(
       (room) =>
         (room.black === 'undefined' && !(room.white === 'undefined')) ||
         (!(room.black === 'undefined') && room.white === 'undefined')
     );
-    assert(rooms, 'クリック出来てるんだからIDが合わないわけない');
-    const id = rooms.id;
+    if (rooms === undefined) {
+      rooms = roomlist.find((room) => room.black === 'undefined' && room.white === 'undefined');
+    }
+    if (rooms === undefined) {
+      const roomData: Pick<RoomModel, 'name'> = {
+        name: 'クイック部屋',
+      };
+      await apiClient.rooms.post({ body: roomData });
+      quickMatch();
+    }
+    const id = rooms?.id;
     window.location.href = `/othello/${id}`;
   };
   const inputLabel = (e: ChangeEvent<HTMLInputElement>) => {
@@ -78,13 +88,16 @@ const Home = () => {
   // playingRooms: プレイ中の部屋の配列
   const waitingRooms: RoomModel[] = [];
   const playingRooms: RoomModel[] = [];
+  const endedRooms: RoomModel[] = [];
 
   // roomsを待機中の部屋とプレイ中の部屋に分ける
   rooms?.forEach((room) => {
     if (room.status === 'waiting') {
       waitingRooms.push(room);
-    } else {
+    } else if (room.status === 'playing') {
       playingRooms.push(room);
+    } else {
+      endedRooms.push(room);
     }
   });
 
@@ -156,6 +169,28 @@ const Home = () => {
       <div className={styles.rooms}>
         {playingRooms?.length ? (
           [...playingRooms].reverse().map((room) => (
+            <Link href={`/othello/${room.id}`} key={room.id} className={styles.box}>
+              <div key={room.id} className={styles.radiusLine}>
+                <span className={styles.spans}>{room.name}</span>
+                <br />
+                参加人数{' '}
+                {room.black !== 'undefined' && room.white !== 'undefined'
+                  ? 2
+                  : room.black !== 'undefined' || room.white !== 'undefined'
+                  ? 1
+                  : 0}
+                人 観戦者数{room.watcher.length - 1}人
+              </div>
+            </Link>
+          ))
+        ) : (
+          <li>ルームが存在しません</li>
+        )}
+      </div>
+      <div className={styles.state}>ゲーム終了</div>
+      <div className={styles.rooms}>
+        {endedRooms?.length ? (
+          [...endedRooms].reverse().map((room) => (
             <Link href={`/othello/${room.id}`} key={room.id} className={styles.box}>
               <div key={room.id} className={styles.radiusLine}>
                 <span className={styles.spans}>{room.name}</span>
