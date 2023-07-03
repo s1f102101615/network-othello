@@ -149,7 +149,7 @@ const Home = () => {
             </Link>
           ))
         ) : (
-          <li>No rooms available</li>
+          <li>ルームが存在しません</li>
         )}
       </div>
       <div className={styles.state}>対戦中</div>
@@ -171,7 +171,7 @@ const Home = () => {
             </Link>
           ))
         ) : (
-          <li>No rooms available</li>
+          <li>ルームが存在しません</li>
         )}
       </div>
     </>
