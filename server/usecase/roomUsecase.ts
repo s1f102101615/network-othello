@@ -105,18 +105,22 @@ export const roomUsecase = {
           rooms.whitename = '退出しました';
           await roomsRepository.save(rooms);
         }
+        rooms.watcher = rooms.watcher.filter((id) => id !== userId);
+        await roomsRepository.save(rooms);
+        return rooms;
       } else if (rooms.status === 'waiting') {
         if (rooms.black === userId) {
           rooms.black = undefined;
           rooms.blackname = '';
-          rooms.watcher = rooms.watcher.filter((id) => id !== userId);
           await roomsRepository.save(rooms);
         } else if (rooms.white === userId) {
           rooms.white = undefined;
           rooms.whitename = '';
-          rooms.watcher = rooms.watcher.filter((id) => id !== userId);
           await roomsRepository.save(rooms);
         }
+        rooms.watcher = rooms.watcher.filter((id) => id !== userId);
+        await roomsRepository.save(rooms);
+        return rooms;
       }
     }
 
