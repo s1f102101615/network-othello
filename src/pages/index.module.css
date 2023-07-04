@@ -247,4 +247,9 @@ a.btn {
 
 .state {
   font-size: 30px;
+  padding-left: 10px;
+}
+
+.n {
+  padding: 5px;
 }

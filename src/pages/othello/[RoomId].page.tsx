@@ -71,6 +71,12 @@ const OthelloPage = () => {
     return () => clearInterval(cancelid);
   }, [fetchBoard]);
 
+  const handlePopstate = async () => {
+    window.removeEventListener('popstate', handlePopstate);
+    await apiClient.rooms.board.$post({ body: { x: 13, y: 10, RoomId } });
+  };
+  window.addEventListener('popstate', handlePopstate);
+
   if (!board || !user) return <Loading visible />;
 
   // ロビーを作る

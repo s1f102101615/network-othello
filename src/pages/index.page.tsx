@@ -13,7 +13,6 @@ import { apiClient } from 'src/utils/apiClient';
 import { returnNull } from 'src/utils/returnNull';
 import { userAtom } from '../atoms/user';
 import styles from './index.module.css';
-
 const Home = () => {
   const [user] = useAtom(userAtom);
   const [label, setLabel] = useState('');
@@ -54,6 +53,7 @@ const Home = () => {
 
   const fetchRooms = async () => {
     const newRoom = await apiClient.rooms.$get().catch(returnNull);
+
     if (newRoom !== null) {
       setRooms(newRoom);
     }
@@ -101,113 +101,119 @@ const Home = () => {
     }
   });
 
-  if (!user) return <Loading visible />;
+  if (!user || !rooms) return <Loading visible />;
   //残りはcss!
 
   return (
     <>
       <BasicHeader user={user} />
-      <div className={styles.title}>FrouriOthello</div>
-      <div className={styles.btncontainer}>
-        <a
-          className={`${styles.btnflat} ${styles.btn}`}
-          onClick={quickMatch}
-          style={{ paddingLeft: '35.8435px', paddingRight: '35.8435px' }}
-        >
-          <span>クイックマッチ</span>
-        </a>
+      <div className={styles.n}>
+        <div className={styles.title}>FrouriOthello</div>
+        <div className={styles.btncontainer}>
+          <a
+            className={`${styles.btnflat} ${styles.btn}`}
+            onClick={quickMatch}
+            style={{ paddingLeft: '35.8435px', paddingRight: '35.8435px' }}
+          >
+            <span>クイックマッチ</span>
+          </a>
 
-        <a className={`${styles.btnflat} ${styles.btn}`} onClick={handleBtn3Click}>
-          <span>ルーム作成</span>
-        </a>
-      </div>
-      <div id="mask" className={styles.mask} style={{ display: hidden === 1 ? 'none' : 'block' }} />
-      <section className={styles.modal} style={{ display: hidden === 1 ? 'none' : 'block' }}>
-        <span className={styles.square_btn} onClick={handleBtn2Click} />
-        <h1 style={{ textAlign: 'center', marginTop: '10px' }}>ルーム作成</h1>
-        <form style={{ textAlign: 'center', marginTop: '20px' }} onSubmit={createRoom}>
-          <input
-            className={styles.inpute}
-            value={label}
-            type="text"
-            onChange={inputLabel}
-            placeholder="部屋の名前"
-            autoFocus
-          />
-          <br />
-          <input
-            type="submit"
-            style={{ textAlign: 'center', marginTop: '5px' }}
-            onClick={handleBtn2Click}
-            className={styles.submit}
-          />
-        </form>
-      </section>
-      <div className={styles.state}>参加待ち</div>
-      <div className={styles.rooms}>
-        {waitingRooms?.length ? (
-          [...waitingRooms].reverse().map((room) => (
-            <Link href={`/othello/${room.id}`} key={room.id} className={styles.box}>
-              <div key={room.id} className={styles.radiusLine}>
-                <span className={styles.spans}>{room.name}</span>
-                <br />
-                参加人数{' '}
-                {room.black !== 'undefined' && room.white !== 'undefined'
-                  ? 2
-                  : room.black !== 'undefined' || room.white !== 'undefined'
-                  ? 1
-                  : 0}
-                人 観戦者数{room.watcher.length - 1}人
-              </div>
-            </Link>
-          ))
-        ) : (
-          <li>ルームが存在しません</li>
-        )}
-      </div>
-      <div className={styles.state}>対戦中</div>
-      <div className={styles.rooms}>
-        {playingRooms?.length ? (
-          [...playingRooms].reverse().map((room) => (
-            <Link href={`/othello/${room.id}`} key={room.id} className={styles.box}>
-              <div key={room.id} className={styles.radiusLine}>
-                <span className={styles.spans}>{room.name}</span>
-                <br />
-                参加人数{' '}
-                {room.black !== 'undefined' && room.white !== 'undefined'
-                  ? 2
-                  : room.black !== 'undefined' || room.white !== 'undefined'
-                  ? 1
-                  : 0}
-                人 観戦者数{room.watcher.length - 1}人
-              </div>
-            </Link>
-          ))
-        ) : (
-          <li>ルームが存在しません</li>
-        )}
-      </div>
-      <div className={styles.state}>ゲーム終了</div>
-      <div className={styles.rooms}>
-        {endedRooms?.length ? (
-          [...endedRooms].reverse().map((room) => (
-            <Link href={`/othello/${room.id}`} key={room.id} className={styles.box}>
-              <div key={room.id} className={styles.radiusLine}>
-                <span className={styles.spans}>{room.name}</span>
-                <br />
-                参加人数{' '}
-                {room.black !== 'undefined' && room.white !== 'undefined'
-                  ? 2
-                  : room.black !== 'undefined' || room.white !== 'undefined'
-                  ? 1
-                  : 0}
-                人 観戦者数{room.watcher.length - 1}人
-              </div>
-            </Link>
-          ))
-        ) : (
-          <li>ルームが存在しません</li>
-        )}
+          <a className={`${styles.btnflat} ${styles.btn}`} onClick={handleBtn3Click}>
+            <span>ルーム作成</span>
+          </a>
+        </div>
+        <div
+          id="mask"
+          className={styles.mask}
+          style={{ display: hidden === 1 ? 'none' : 'block' }}
+        />
+        <section className={styles.modal} style={{ display: hidden === 1 ? 'none' : 'block' }}>
+          <span className={styles.square_btn} onClick={handleBtn2Click} />
+          <h1 style={{ textAlign: 'center', marginTop: '10px' }}>ルーム作成</h1>
+          <form style={{ textAlign: 'center', marginTop: '20px' }} onSubmit={createRoom}>
+            <input
+              className={styles.inpute}
+              value={label}
+              type="text"
+              onChange={inputLabel}
+              placeholder="部屋の名前"
+              autoFocus
+            />
+            <br />
+            <input
+              type="submit"
+              style={{ textAlign: 'center', marginTop: '5px' }}
+              onClick={handleBtn2Click}
+              className={styles.submit}
+            />
+          </form>
+        </section>
+        <div className={styles.state}>参加待ち</div>
+        <div className={styles.rooms}>
+          {waitingRooms?.length ? (
+            [...waitingRooms].reverse().map((room) => (
+              <Link href={`/othello/${room.id}`} key={room.id} className={styles.box}>
+                <div key={room.id} className={styles.radiusLine}>
+                  <span className={styles.spans}>{room.name}</span>
+                  <br />
+                  参加人数{' '}
+                  {room.black !== 'undefined' && room.white !== 'undefined'
+                    ? 2
+                    : room.black !== 'undefined' || room.white !== 'undefined'
+                    ? 1
+                    : 0}
+                  人 観戦者数{room.watcher.length - 1}人
+                </div>
+              </Link>
+            ))
+          ) : (
+            <li style={{ paddingLeft: '30px' }}>ルームが存在しません</li>
+          )}
+        </div>
+        <div className={styles.state}>対戦中</div>
+        <div className={styles.rooms}>
+          {playingRooms?.length ? (
+            [...playingRooms].reverse().map((room) => (
+              <Link href={`/othello/${room.id}`} key={room.id} className={styles.box}>
+                <div key={room.id} className={styles.radiusLine}>
+                  <span className={styles.spans}>{room.name}</span>
+                  <br />
+                  参加人数{' '}
+                  {room.black !== 'undefined' && room.white !== 'undefined'
+                    ? 2
+                    : room.black !== 'undefined' || room.white !== 'undefined'
+                    ? 1
+                    : 0}
+                  人 観戦者数{room.watcher.length - 1}人
+                </div>
+              </Link>
+            ))
+          ) : (
+            <li style={{ paddingLeft: '30px' }}>ルームが存在しません</li>
+          )}
+        </div>
+        <div className={styles.state}>ゲーム終了</div>
+        <div className={styles.rooms}>
+          {endedRooms?.length ? (
+            [...endedRooms].reverse().map((room) => (
+              <Link href={`/othello/${room.id}`} key={room.id} className={styles.box}>
+                <div key={room.id} className={styles.radiusLine}>
+                  <span className={styles.spans}>{room.name}</span>
+                  <br />
+                  参加人数{' '}
+                  {room.black !== 'undefined' && room.white !== 'undefined'
+                    ? 2
+                    : room.black !== 'undefined' || room.white !== 'undefined'
+                    ? 1
+                    : 0}
+                  人 観戦者数{room.watcher.length - 1}人
+                </div>
+              </Link>
+            ))
+          ) : (
+            <li style={{ paddingLeft: '30px' }}>ルームが存在しません</li>
+          )}
+        </div>
       </div>
     </>
   );

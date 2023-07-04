@@ -92,16 +92,44 @@ export const roomUsecase = {
       }
       await roomsRepository.save(rooms);
     }
+    if (x === 13) {
+      if (rooms.status === 'playing') {
+        if (rooms.black === userId) {
+          rooms.status = 'ended';
+          rooms.blackname = '退出しました';
+          await roomsRepository.save(rooms);
+        } else if (rooms.white === userId) {
+          rooms.status = 'ended';
+          rooms.whitename = '退出しました';
+          await roomsRepository.save(rooms);
+        }
+      } else if (rooms.status === 'waiting') {
+        if (rooms.black === userId) {
+          rooms.black = undefined;
+          rooms.blackname = '';
+          await roomsRepository.save(rooms);
+        } else if (rooms.white === userId) {
+          rooms.white = undefined;
+          rooms.whitename = '';
+          await roomsRepository.save(rooms);
+        }
+      }
+    }
 
     const newBoard: number[][] = JSON.parse(JSON.stringify(rooms.board));
     const userColor = await userColorUsecase.getUserColor(userId, RoomId);
-    if (userColor !== rooms.turn || newBoard[y][x] !== 3 || rooms.status === 'waiting') {
+    if (
+      userColor !== rooms.turn ||
+      newBoard[y][x] !== 3 ||
+      rooms.status === 'waiting' ||
+      rooms.status === 'ended'
+    ) {
       const newRoom: RoomModel = { ...rooms, board: newBoard };
       return newRoom;
     }
     newBoard[y][x] = userColor;
     if (checkArray(newBoard)) {
-      rooms.status === 'ended';
+      rooms.status = 'ended';
     }
     const cong = changeBoardUsecase.getChangeBoard(x, y, userId, newBoard, RoomId);
     // const setturn: RoomModel = { ...rooms, turn: 3 - rooms.turn };
