@@ -72,6 +72,7 @@ export const roomUsecase = {
         }
         rooms.black = userId;
         rooms.blackname = userDisplayName;
+        rooms.watcher = rooms.watcher.filter((id) => id !== userId);
       }
       await roomsRepository.save(rooms);
     }
@@ -89,6 +90,7 @@ export const roomUsecase = {
         }
         rooms.white = userId;
         rooms.whitename = userDisplayName;
+        rooms.watcher = rooms.watcher.filter((id) => id !== userId);
       }
       await roomsRepository.save(rooms);
     }
@@ -107,10 +109,12 @@ export const roomUsecase = {
         if (rooms.black === userId) {
           rooms.black = undefined;
           rooms.blackname = '';
+          rooms.watcher = rooms.watcher.filter((id) => id !== userId);
           await roomsRepository.save(rooms);
         } else if (rooms.white === userId) {
           rooms.white = undefined;
           rooms.whitename = '';
+          rooms.watcher = rooms.watcher.filter((id) => id !== userId);
           await roomsRepository.save(rooms);
         }
       }
