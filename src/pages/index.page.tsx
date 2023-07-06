@@ -2,7 +2,6 @@
 /* eslint-disable complexity */
 /* eslint-disable max-depth */
 import type { RoomModel } from '$/commonTypesWithClient/models';
-import assert from 'assert';
 import { useAtom } from 'jotai';
 import Link from 'next/link';
 import type { ChangeEvent, FormEvent } from 'react';
@@ -25,17 +24,24 @@ const Home = () => {
   const handleBtn2Click = () => {
     setHidden(1);
   };
+
   const quickMatch = async () => {
     const roomlist = await apiClient.rooms.$get().catch(returnNull);
-    assert(roomlist, 'クリック出来てるんだからRoomが無いわけがない');
-    roomlist.reverse();
-    let rooms = roomlist.find(
+    if (roomlist === undefined) {
+      const roomData: Pick<RoomModel, 'name'> = {
+        name: 'クイック部屋',
+      };
+      await apiClient.rooms.post({ body: roomData });
+      quickMatch();
+    }
+    roomlist?.reverse();
+    let rooms = roomlist?.find(
       (room) =>
         (room.black === 'undefined' && !(room.white === 'undefined')) ||
         (!(room.black === 'undefined') && room.white === 'undefined')
     );
     if (rooms === undefined) {
-      rooms = roomlist.find((room) => room.black === 'undefined' && room.white === 'undefined');
+      rooms = roomlist?.find((room) => room.black === 'undefined' && room.white === 'undefined');
     }
     if (rooms === undefined) {
       const roomData: Pick<RoomModel, 'name'> = {
