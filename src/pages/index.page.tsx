@@ -108,7 +108,6 @@ const Home = () => {
   });
 
   if (!user || !rooms) return <Loading visible />;
-  //残りはcss!
 
   return (
     <>
