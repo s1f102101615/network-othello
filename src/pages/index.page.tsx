@@ -65,15 +65,6 @@ const Home = () => {
     }
   };
 
-  // const createTask = async (e: FormEvent) => {
-  //   e.preventDefault();
-  //   if (!label) return;
-
-  //   await apiClient.tasks.post({ body: { label } });
-  //   setLabel('');
-  //   await fetchTasks();
-  // };
-
   const createRoom = async (e: FormEvent) => {
     e.preventDefault();
     if (!label) return;
