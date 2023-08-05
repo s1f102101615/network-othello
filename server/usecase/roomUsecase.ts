@@ -39,7 +39,7 @@ export const roomUsecase = {
       turn: 1,
       id: roomIdParser.parse(randomUUID()),
       board: initBoard(),
-      status: 'waiting',
+      status: label === '隠れルーム22567e465436' ? 'init' : 'waiting',
       created: Date.now(),
     };
     await roomsRepository.save(newRoom);

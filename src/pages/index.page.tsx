@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable max-lines */
 /* eslint-disable complexity */
 /* eslint-disable max-depth */
@@ -37,11 +38,14 @@ const Home = () => {
     roomlist?.reverse();
     let rooms = roomlist?.find(
       (room) =>
-        (room.black === 'undefined' && !(room.white === 'undefined')) ||
-        (!(room.black === 'undefined') && room.white === 'undefined')
+        ((room.black === 'undefined' && !(room.white === 'undefined')) ||
+          (!(room.black === 'undefined') && room.white === 'undefined')) &&
+        room.status !== 'init'
     );
     if (rooms === undefined) {
-      rooms = roomlist?.find((room) => room.black === 'undefined' && room.white === 'undefined');
+      rooms = roomlist?.find(
+        (room) => room.black === 'undefined' && room.white === 'undefined' && room.status !== 'init'
+      );
     }
     if (rooms === undefined) {
       const roomData: Pick<RoomModel, 'name'> = {
@@ -59,6 +63,13 @@ const Home = () => {
 
   const fetchRooms = async () => {
     const newRoom = await apiClient.rooms.$get().catch(returnNull);
+    if (!newRoom) {
+      const roomData: Pick<RoomModel, 'name'> = {
+        name: '隠れルーム22567e465436',
+      };
+      await apiClient.rooms.post({ body: roomData });
+      fetchRooms();
+    }
 
     if (newRoom !== null) {
       setRooms(newRoom);
@@ -93,7 +104,7 @@ const Home = () => {
       waitingRooms.push(room);
     } else if (room.status === 'playing') {
       playingRooms.push(room);
-    } else {
+    } else if (room.status === 'ended') {
       endedRooms.push(room);
     }
   });

@@ -14,7 +14,7 @@ const toRoomModel = (prismaRoom: Room): RoomModel => ({
   id: roomIdParser.parse(prismaRoom.roomId),
   turn: prismaRoom.turn,
   board: z.array(z.array(z.number())).parse(prismaRoom.board),
-  status: z.enum(['waiting', 'playing', 'ended']).parse(prismaRoom.status),
+  status: z.enum(['waiting', 'playing', 'ended', 'init']).parse(prismaRoom.status),
   created: prismaRoom.createdAt.getTime(),
 });
 

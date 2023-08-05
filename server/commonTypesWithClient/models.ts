@@ -24,6 +24,6 @@ export type RoomModel = {
   turn: number;
   id: RoomId;
   board: number[][];
-  status: 'waiting' | 'playing' | 'ended';
+  status: 'waiting' | 'playing' | 'ended' | 'init';
   created: number;
 };
